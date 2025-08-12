@@ -1,23 +1,41 @@
+import { useState } from "react";
 import { useKanban } from "../../context/KanbanContext";
 import type { Task } from "../../types";
+import TaskCard from "./TaskCard";
+import TaskModal from "./TaskModal";
 
 interface TaskProps {
   task: Task;
 }
+
 export default function Task({ task }: TaskProps) {
   const { renameTask, deleteTask } = useKanban();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleRename = () => {
+    const newTitle = prompt("New task title:", task.title)?.trim();
+    if (newTitle) {
+      renameTask(task.id, newTitle);
+    }
+  };
+
+  const handleDelete = () => {
+    if (confirm("Are you sure you want to delete this task?")) {
+      deleteTask(task.id);
+      setIsModalOpen(false);
+    }
+  };
+
   return (
-    <div key={task.id} style={{ display: "flex", gap: 8, alignItems: "center" }}>
-      <div>{task.title}</div>
-      <button
-        onClick={() => {
-          const newTitle = prompt("New task title:", task.title)?.trim();
-          if (newTitle) renameTask(task.id, newTitle);
-        }}
-      >
-        rename task
-      </button>
-      <button onClick={() => deleteTask(task.id)}>delete task</button>
-    </div>
+    <>
+      <TaskCard task={task} onClick={() => setIsModalOpen(true)} />
+      <TaskModal
+        task={task}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onRename={handleRename}
+        onDelete={handleDelete}
+      />
+    </>
   );
 }
