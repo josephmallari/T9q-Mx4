@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer, type ReactNode } from "react";
-import type { Kanban, Task } from "../types";
+import type { Kanban, Task, Comment } from "../types";
 
 const initialState: Kanban = {
   columns: [
@@ -21,7 +21,10 @@ type Action =
   | { type: "ADD_COLUMN"; columnId: string; title: string }
   | { type: "DELETE_COLUMN"; columnId: string }
   | { type: "RENAME_COLUMN"; columnId: string; newTitle: string }
-  | { type: "RENAME_TASK"; taskId: string; newTitle: string };
+  | { type: "RENAME_TASK"; taskId: string; newTitle: string }
+  | { type: "ADD_COMMENT"; taskId: string; comment: string }
+  | { type: "DELETE_COMMENT"; taskId: string; commentId: string }
+  | { type: "EDIT_COMMENT"; taskId: string; commentId: string; newText: string };
 
 function reducer(state: Kanban, action: Action): Kanban {
   switch (action.type) {
@@ -62,6 +65,45 @@ function reducer(state: Kanban, action: Action): Kanban {
         tasks: state.tasks.map((task) => (task.id === action.taskId ? { ...task, title: action.newTitle } : task)),
       };
     }
+    case "ADD_COMMENT": {
+      const newComment: Comment = {
+        id: `comment_${Date.now()}`,
+        comment: action.comment,
+        createdAt: Date.now(),
+      };
+
+      return {
+        ...state,
+        tasks: state.tasks.map((task) =>
+          task.id === action.taskId ? { ...task, comments: [...task.comments, newComment] } : task
+        ),
+      };
+    }
+    case "DELETE_COMMENT": {
+      return {
+        ...state,
+        tasks: state.tasks.map((task) =>
+          task.id === action.taskId
+            ? { ...task, comments: task.comments.filter((comment) => comment.id !== action.commentId) }
+            : task
+        ),
+      };
+    }
+    case "EDIT_COMMENT": {
+      return {
+        ...state,
+        tasks: state.tasks.map((task) =>
+          task.id === action.taskId
+            ? {
+                ...task,
+                comments: task.comments.map((comment) =>
+                  comment.id === action.commentId ? { ...comment, comment: action.newText } : comment
+                ),
+              }
+            : task
+        ),
+      };
+    }
     default:
       return state;
   }
@@ -75,11 +117,12 @@ type KanbanContextValue = {
   deleteColumn: (columnId: string) => void;
   renameColumn: (columnId: string, newTitle: string) => void;
   renameTask: (taskId: string, taskTitle: string) => void;
+  addComment: (taskId: string, comment: string) => void;
+  deleteComment: (taskId: string, commentId: string) => void;
+  editComment: (taskId: string, commentId: string, newText: string) => void;
 };
 
 const KanbanContext = createContext<KanbanContextValue | undefined>(undefined);
-
-// get column ID, add to task array, append on tasks array
 
 export function KanbanProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -108,8 +151,33 @@ export function KanbanProvider({ children }: { children: ReactNode }) {
     dispatch({ type: "RENAME_TASK", taskId, newTitle: taskTitle });
   }
 
+  function addComment(taskId: string, comment: string) {
+    dispatch({ type: "ADD_COMMENT", taskId, comment });
+  }
+
+  function deleteComment(taskId: string, commentId: string) {
+    dispatch({ type: "DELETE_COMMENT", taskId, commentId });
+  }
+
+  function editComment(taskId: string, commentId: string, newText: string) {
+    dispatch({ type: "EDIT_COMMENT", taskId, commentId, newText });
+  }
+
   return (
-    <KanbanContext.Provider value={{ state, addTask, deleteTask, addColumn, deleteColumn, renameColumn, renameTask }}>
+    <KanbanContext.Provider
+      value={{
+        state,
+        addTask,
+        deleteTask,
+        addColumn,
+        deleteColumn,
+        renameColumn,
+        renameTask,
+        addComment,
+        deleteComment,
+        editComment,
+      }}
+    >
       {children}
     </KanbanContext.Provider>
   );

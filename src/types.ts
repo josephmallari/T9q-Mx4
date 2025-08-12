@@ -3,8 +3,10 @@ export interface Column {
   title: string;
 }
 
-interface Comment {
+export interface Comment {
+  id: string;
   comment: string;
+  createdAt: number; // Timestamp for sorting
 }
 
 export interface Task {
