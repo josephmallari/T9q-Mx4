@@ -105,33 +105,17 @@ export default function TaskModalNew({ task, isOpen, onClose, onDelete }: TaskMo
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title={isEditingTitle ? editTitle : task.title}
+      title={task.title}
       size="large"
       isTitleEditable={!isEditingTitle}
       onTitleEdit={handleStartEditTitle}
+      isEditingTitle={isEditingTitle}
+      editTitle={editTitle}
+      onTitleChange={setEditTitle}
+      onTitleKeyDown={handleTitleKeyDown}
+      onTitleBlur={handleSaveEditTitle}
     >
       <div className="task-modal-content">
-        {isEditingTitle && (
-          <div className="task-title-edit">
-            <input
-              ref={titleInputRef}
-              type="text"
-              value={editTitle}
-              onChange={(e) => setEditTitle(e.target.value)}
-              onKeyDown={handleTitleKeyDown}
-              onBlur={handleSaveEditTitle}
-              className="task-title-input"
-              maxLength={100}
-            />
-          </div>
-        )}
-
-        <div className="task-modal-actions">
-          <button className="btn btn-danger" onClick={onDelete}>
-            Delete Task
-          </button>
-        </div>
-
         {/* Task Description */}
         <div className="task-description-section">
           <h3>Description</h3>
@@ -164,35 +148,35 @@ export default function TaskModalNew({ task, isOpen, onClose, onDelete }: TaskMo
             </div>
           )}
         </div>
+        <div className="task-modal-actions">
+          <button className="btn btn-danger" onClick={onDelete}>
+            Delete Task
+          </button>
+        </div>
 
         {/* Comments Section */}
         <div className="comments-section">
           <h3>Comments</h3>
 
           {/* Add Comment Button/Form */}
-          {!showCommentForm ? (
-            <button className="btn btn-secondary add-comment-button" onClick={() => setShowCommentForm(true)}>
-              Add comment
-            </button>
-          ) : (
-            <div className="comment-form">
-              <textarea
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-                placeholder="Add a comment..."
-                className="comment-textarea"
-                autoFocus
-              />
-              <div className="comment-form-actions">
-                <button className="btn btn-primary" onClick={handleAddComment} disabled={!newComment.trim()}>
-                  Add Comment
-                </button>
-                <button className="btn btn-secondary" onClick={handleCancelComment}>
-                  Cancel
-                </button>
-              </div>
+
+          <div className="comment-form">
+            <textarea
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="Add a comment..."
+              className="comment-textarea"
+              autoFocus
+            />
+            <div className="comment-form-actions">
+              <button className="btn btn-primary" onClick={handleAddComment} disabled={!newComment.trim()}>
+                Add Comment
+              </button>
+              <button className="btn btn-secondary" onClick={handleCancelComment}>
+                Clear
+              </button>
             </div>
-          )}
+          </div>
 
           {/* Comments List */}
           <CommentsList

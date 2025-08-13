@@ -26,6 +26,7 @@
   color: #333;
   margin-bottom: 6px;
   line-height: 1.3;
+  text-align: left;
 }
 
 .task-card-description {
@@ -38,6 +39,7 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-align: left;
 }
 
 .task-card-comments {

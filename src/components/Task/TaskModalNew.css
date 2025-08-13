@@ -80,13 +80,13 @@
 .task-description-section {
   margin-bottom: 24px;
   padding-bottom: 20px;
-  border-bottom: 1px solid #e1e5e9;
 }
 
 .task-description-section h3 {
   margin: 0 0 12px 0;
   font-size: 18px;
   color: #333;
+  text-align: left;
 }
 
 .task-description {
@@ -97,7 +97,6 @@
   background-color: #f8f9fa;
   padding: 12px;
   border-radius: 8px;
-  border-left: 4px solid #000;
 }
 
 .task-description-display {
@@ -110,6 +109,7 @@
 .task-description-display .task-description {
   flex: 1;
   margin: 0;
+  text-align: left;
 }
 
 .edit-description-btn {
@@ -154,7 +154,6 @@
 
 /* Comments Section */
 .comments-section {
-  border-top: 1px solid #e1e5e9;
   padding-top: 20px;
 }
 
@@ -162,6 +161,7 @@
   margin: 0 0 16px 0;
   font-size: 18px;
   color: #333;
+  text-align: left;
 }
 
 .add-comment-button {

@@ -9,6 +9,11 @@ interface ModalProps {
   size?: "small" | "medium" | "large";
   isTitleEditable?: boolean;
   onTitleEdit?: () => void;
+  isEditingTitle?: boolean;
+  editTitle?: string;
+  onTitleChange?: (value: string) => void;
+  onTitleKeyDown?: (e: React.KeyboardEvent) => void;
+  onTitleBlur?: () => void;
 }
 
 export default function Modal({
@@ -19,6 +24,11 @@ export default function Modal({
   size = "medium",
   isTitleEditable = false,
   onTitleEdit,
+  isEditingTitle = false,
+  editTitle = "",
+  onTitleChange,
+  onTitleKeyDown,
+  onTitleBlur,
 }: ModalProps) {
   if (!isOpen) return null;
 
@@ -32,12 +42,25 @@ export default function Modal({
     <div className="modal-overlay" onClick={handleOverlayClick}>
       <div className={`modal-content modal-content--${size}`} onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h2
-            className={`modal-title ${isTitleEditable ? "modal-title--editable" : ""}`}
-            onClick={isTitleEditable ? onTitleEdit : undefined}
-          >
-            {title}
-          </h2>
+          {isEditingTitle ? (
+            <input
+              type="text"
+              value={editTitle}
+              onChange={(e) => onTitleChange?.(e.target.value)}
+              onKeyDown={onTitleKeyDown}
+              onBlur={onTitleBlur}
+              className="modal-title modal-title-input"
+              maxLength={100}
+              autoFocus
+            />
+          ) : (
+            <h2
+              className={`modal-title ${isTitleEditable ? "modal-title--editable" : ""}`}
+              onClick={isTitleEditable ? onTitleEdit : undefined}
+            >
+              {title}
+            </h2>
+          )}
           <button className="modal-close-button" onClick={onClose}>
             ×
           </button>

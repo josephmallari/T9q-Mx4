@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(59, 130, 246, 0.65); /* Calm blue with 65% opacity */
+  background-color: rgba(59, 130, 246, 0.75); /* Calm blue with 65% opacity */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -58,24 +58,23 @@
   position: relative;
 }
 
-.modal-title--editable:hover {
-  background-color: #f0f8ff;
-  border: 1px dashed #0066cc;
+.modal-title-input {
+  margin: 0;
+  font-size: 24px;
+  color: #000;
+  font-weight: 600;
+  border: 2px solid #0066cc;
+  border-radius: 8px;
+  padding: 4px 8px;
+  outline: none;
+  background-color: white;
+  width: 100%;
+  max-width: 400px;
 }
 
-.modal-title--editable::after {
-  content: "✏️";
-  position: absolute;
-  right: -30px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 14px;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-.modal-title--editable:hover::after {
-  opacity: 1;
+.modal-title-input:focus {
+  border-color: #0066cc;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.2);
 }
 
 .modal-close-button {

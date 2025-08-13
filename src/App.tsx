@@ -15,8 +15,8 @@ function App() {
 
   return (
     <>
-      <h1>Almedia</h1>
-      <div style={{ display: "flex", gap: "20px", padding: "20px" }}>
+      <h1>Almedia Kanban Board</h1>
+      <div style={{ display: "flex", gap: "20px" }}>
         {state.columns.map((column) => (
           <Column key={column.id} column={column} />
         ))}
