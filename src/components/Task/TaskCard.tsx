@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import type { Task } from "../../types";
 import "./TaskCard.css";
 
@@ -7,8 +8,41 @@ interface TaskCardProps {
 }
 
 export default function TaskCard({ task, onClick }: TaskCardProps) {
+  const dragRef = useRef<HTMLDivElement>(null);
+
+  const handleDragStart = (e: React.DragEvent) => {
+    e.dataTransfer.setData("text/plain", task.id);
+    e.dataTransfer.effectAllowed = "move";
+
+    // Add visual feedback
+    if (dragRef.current) {
+      dragRef.current.style.opacity = "0.5";
+    }
+  };
+
+  const handleDragEnd = (e: React.DragEvent) => {
+    // Remove visual feedback
+    if (dragRef.current) {
+      dragRef.current.style.opacity = "1";
+    }
+  };
+
+  const handleClick = (e: React.MouseEvent) => {
+    // Prevent click when dragging
+    if ((e.currentTarget as HTMLElement).style.opacity !== "0.5") {
+      onClick();
+    }
+  };
+
   return (
-    <div className="task-card" onClick={onClick}>
+    <div
+      ref={dragRef}
+      className="task-card"
+      draggable
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      onClick={handleClick}
+    >
       {task.title}
     </div>
   );

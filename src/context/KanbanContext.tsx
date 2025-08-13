@@ -24,7 +24,8 @@ type Action =
   | { type: "RENAME_TASK"; taskId: string; newTitle: string }
   | { type: "ADD_COMMENT"; taskId: string; comment: string }
   | { type: "DELETE_COMMENT"; taskId: string; commentId: string }
-  | { type: "EDIT_COMMENT"; taskId: string; commentId: string; newText: string };
+  | { type: "EDIT_COMMENT"; taskId: string; commentId: string; newText: string }
+  | { type: "MOVE_TASK"; taskId: string; newColumnId: string };
 
 function reducer(state: Kanban, action: Action): Kanban {
   switch (action.type) {
@@ -104,6 +105,14 @@ function reducer(state: Kanban, action: Action): Kanban {
         ),
       };
     }
+    case "MOVE_TASK": {
+      return {
+        ...state,
+        tasks: state.tasks.map((task) =>
+          task.id === action.taskId ? { ...task, columnId: action.newColumnId } : task
+        ),
+      };
+    }
     default:
       return state;
   }
@@ -120,6 +129,7 @@ type KanbanContextValue = {
   addComment: (taskId: string, comment: string) => void;
   deleteComment: (taskId: string, commentId: string) => void;
   editComment: (taskId: string, commentId: string, newText: string) => void;
+  moveTask: (taskId: string, newColumnId: string) => void;
 };
 
 const KanbanContext = createContext<KanbanContextValue | undefined>(undefined);
@@ -163,6 +173,10 @@ export function KanbanProvider({ children }: { children: ReactNode }) {
     dispatch({ type: "EDIT_COMMENT", taskId, commentId, newText });
   }
 
+  function moveTask(taskId: string, newColumnId: string) {
+    dispatch({ type: "MOVE_TASK", taskId, newColumnId });
+  }
+
   return (
     <KanbanContext.Provider
       value={{
@@ -173,6 +187,7 @@ export function KanbanProvider({ children }: { children: ReactNode }) {
         deleteColumn,
         renameColumn,
         renameTask,
+        moveTask,
         addComment,
         deleteComment,
         editComment,

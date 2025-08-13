@@ -4,10 +4,24 @@
   border: 1px solid #dee2e6;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, transform 0.2s ease;
   margin-bottom: 4px;
+  user-select: none;
 }
 
 .task-card:hover {
   background-color: #e9ecef;
+}
+
+.task-card:active {
+  transform: scale(0.98);
+}
+
+/* Drag feedback styles */
+.task-card[draggable="true"] {
+  cursor: grab;
+}
+
+.task-card[draggable="true"]:active {
+  cursor: grabbing;
 }
