@@ -32,7 +32,7 @@
 }
 
 .comment-textarea {
-  width: 100%;
+  width: calc(100% - 48px);
   min-height: 60px;
   padding: 8px;
   border: 1px solid #ddd;
@@ -66,7 +66,7 @@
 
 .btn-danger {
   background-color: #dc3545;
-  color: white;
+  color: black;
   border: 1px solid #dc3545;
 }
 

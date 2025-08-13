@@ -14,7 +14,7 @@ export default function Comment({ comment, taskId, onDelete, onEdit }: CommentPr
   const [editText, setEditText] = useState(comment.comment);
 
   const handleEdit = () => {
-    if (editText.trim() && editText !== comment.comment) {
+    if (editText.trim()) {
       onEdit(comment.id, editText);
       setIsEditing(false);
     }

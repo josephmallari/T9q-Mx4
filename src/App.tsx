@@ -16,7 +16,7 @@ function App() {
   return (
     <>
       <h1>Almedia Kanban Board</h1>
-      <div style={{ display: "flex", gap: "20px" }}>
+      <div className="kanban-board">
         {state.columns.map((column) => (
           <Column key={column.id} column={column} />
         ))}
@@ -27,7 +27,9 @@ function App() {
             onAdd={handleAddColumn}
           />
         ) : (
-          <button onClick={() => setIsAddColumnVisible(true)}>add column</button>
+          <button className="add-column-button" onClick={() => setIsAddColumnVisible(true)}>
+            Add column
+          </button>
         )}
       </div>
     </>

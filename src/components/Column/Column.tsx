@@ -131,7 +131,7 @@ export default function Column({ column }: ColumnProps) {
       <div className="column-footer">
         <button className="add-task-button" onClick={() => setIsAddTaskModalOpen(true)}>
           <span className="add-task-icon">+</span>
-          Add another card
+          Add Task
         </button>
       </div>
 
