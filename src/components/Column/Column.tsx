@@ -2,7 +2,9 @@ import { useRef, useState } from "react";
 import { useKanban } from "../../context/KanbanContext";
 import Task from "../Task/Task";
 import ColumnRenameModal from "./ColumnRenameModal";
+import AddTaskModal from "../Task/AddTaskModal";
 import type { Column as ColumnType } from "../../types";
+import "./Column.css";
 
 interface ColumnProps {
   column: ColumnType;
@@ -12,6 +14,7 @@ export default function Column({ column }: ColumnProps) {
   const { state, addTask, deleteColumn, renameColumn, moveTask } = useKanban();
   const [isDragOver, setIsDragOver] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
+  const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
   const dropRef = useRef<HTMLDivElement>(null);
 
   const columnTasks = state.tasks.filter((task) => task.columnId === column.id);
@@ -39,32 +42,41 @@ export default function Column({ column }: ColumnProps) {
     }
   };
 
+  const handleAddTask = (title: string, description: string) => {
+    addTask(column.id, title, description);
+  };
+
   return (
     <div
       ref={dropRef}
-      style={{
-        border: "1px solid #ccc",
-        padding: "16px",
-        borderRadius: "8px",
-        minWidth: "200px",
-        backgroundColor: isDragOver ? "#f0f8ff" : "white",
-        borderColor: isDragOver ? "#0066cc" : "#ccc",
-        transition: "all 0.2s ease",
-      }}
+      className={`column ${isDragOver ? "drag-over" : ""}`}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
-      <h3>{column.title}</h3>
-      <p>Column ID: {column.id}</p>
-      {columnTasks.map((task) => {
-        return <Task key={task.id} task={task} />;
-      })}
+      <div className="column-header">
+        <h3 className="column-title">{column.title}</h3>
+        <div className="column-actions">
+          <button className="column-action-button" onClick={() => setIsRenameModalOpen(true)}>
+            rename
+          </button>
+          <button className="column-action-button" onClick={() => deleteColumn(column.id)}>
+            delete
+          </button>
+        </div>
+      </div>
 
-      <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
-        <button onClick={() => addTask(column.id, "task")}>add task</button>
-        <button onClick={() => deleteColumn(column.id)}>delete column</button>
-        <button onClick={() => setIsRenameModalOpen(true)}>rename column</button>
+      <div className="column-content">
+        {columnTasks.map((task) => {
+          return <Task key={task.id} task={task} />;
+        })}
+      </div>
+
+      <div className="column-footer">
+        <button className="add-task-button" onClick={() => setIsAddTaskModalOpen(true)}>
+          <span className="add-task-icon">+</span>
+          Add another card
+        </button>
       </div>
 
       <ColumnRenameModal
@@ -76,6 +88,8 @@ export default function Column({ column }: ColumnProps) {
           setIsRenameModalOpen(false);
         }}
       />
+
+      <AddTaskModal isOpen={isAddTaskModalOpen} onClose={() => setIsAddTaskModalOpen(false)} onAdd={handleAddTask} />
     </div>
   );
 }

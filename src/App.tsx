@@ -1,9 +1,17 @@
 import "./App.css";
 import Column from "./components/Column/Column";
+import AddColumnModal from "./components/Column/AddColumnModal";
 import { useKanban } from "./context/KanbanContext";
+import { useState } from "react";
 
 function App() {
   const { state, addColumn } = useKanban();
+  const [isAddColumnModalOpen, setIsAddColumnModalOpen] = useState(false);
+
+  const handleAddColumn = (title: string) => {
+    const id = `col_${Date.now()}`;
+    addColumn(id, title);
+  };
 
   return (
     <>
@@ -12,17 +20,14 @@ function App() {
         {state.columns.map((column) => (
           <Column key={column.id} column={column} />
         ))}
-        <button
-          onClick={() => {
-            const title = prompt("Column title?")?.trim();
-            if (!title) return;
-            const id = `col_${Date.now()}`;
-            addColumn(id, title);
-          }}
-        >
-          add column
-        </button>
+        <button onClick={() => setIsAddColumnModalOpen(true)}>add column</button>
       </div>
+
+      <AddColumnModal
+        isOpen={isAddColumnModalOpen}
+        onClose={() => setIsAddColumnModalOpen(false)}
+        onAdd={handleAddColumn}
+      />
     </>
   );
 }

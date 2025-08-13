@@ -3,6 +3,7 @@ import { useKanban } from "../../context/KanbanContext";
 import type { Task } from "../../types";
 import TaskCard from "./TaskCard";
 import TaskModalNew from "./TaskModalNew";
+import RenameTaskModal from "./RenameTaskModal";
 
 interface TaskProps {
   task: Task;
@@ -11,12 +12,14 @@ interface TaskProps {
 export default function Task({ task }: TaskProps) {
   const { renameTask, deleteTask } = useKanban();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
 
   const handleRename = () => {
-    const newTitle = prompt("New task title:", task.title)?.trim();
-    if (newTitle) {
-      renameTask(task.id, newTitle);
-    }
+    setIsRenameModalOpen(true);
+  };
+
+  const handleRenameSubmit = (newTitle: string) => {
+    renameTask(task.id, newTitle);
   };
 
   const handleDelete = () => {
@@ -35,6 +38,12 @@ export default function Task({ task }: TaskProps) {
         onClose={() => setIsModalOpen(false)}
         onRename={handleRename}
         onDelete={handleDelete}
+      />
+      <RenameTaskModal
+        isOpen={isRenameModalOpen}
+        onClose={() => setIsRenameModalOpen(false)}
+        currentTitle={task.title}
+        onRename={handleRenameSubmit}
       />
     </>
   );

@@ -43,7 +43,13 @@ export default function TaskCard({ task, onClick }: TaskCardProps) {
       onDragEnd={handleDragEnd}
       onClick={handleClick}
     >
-      {task.title}
+      <div className="task-card-title">{task.title}</div>
+      {task.description && <div className="task-card-description">{task.description}</div>}
+      {task.comments.length > 0 && (
+        <div className="task-card-comments">
+          {task.comments.length} comment{task.comments.length !== 1 ? "s" : ""}
+        </div>
+      )}
     </div>
   );
 }

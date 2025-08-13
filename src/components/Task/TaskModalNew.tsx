@@ -16,11 +16,13 @@ interface TaskModalNewProps {
 export default function TaskModalNew({ task, isOpen, onClose, onRename, onDelete }: TaskModalNewProps) {
   const { addComment, deleteComment, editComment } = useKanban();
   const [newComment, setNewComment] = useState("");
+  const [showCommentForm, setShowCommentForm] = useState(false);
 
   const handleAddComment = () => {
     if (newComment.trim()) {
       addComment(task.id, newComment);
       setNewComment("");
+      setShowCommentForm(false);
     }
   };
 
@@ -30,6 +32,11 @@ export default function TaskModalNew({ task, isOpen, onClose, onRename, onDelete
 
   const handleEditComment = (commentId: string, newText: string) => {
     editComment(task.id, commentId, newText);
+  };
+
+  const handleCancelComment = () => {
+    setNewComment("");
+    setShowCommentForm(false);
   };
 
   return (
@@ -44,24 +51,42 @@ export default function TaskModalNew({ task, isOpen, onClose, onRename, onDelete
           </button>
         </div>
 
+        {/* Task Description */}
+        {task.description && (
+          <div className="task-description-section">
+            <h3>Description</h3>
+            <p className="task-description">{task.description}</p>
+          </div>
+        )}
+
         {/* Comments Section */}
         <div className="comments-section">
           <h3>Comments</h3>
 
-          {/* Add Comment Form */}
-          <div className="comment-form">
-            <textarea
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              placeholder="Add a comment..."
-              className="comment-textarea"
-            />
-            <div className="comment-form-actions">
-              <button className="btn btn-primary" onClick={handleAddComment} disabled={!newComment.trim()}>
-                Add Comment
-              </button>
+          {/* Add Comment Button/Form */}
+          {!showCommentForm ? (
+            <button className="btn btn-secondary add-comment-button" onClick={() => setShowCommentForm(true)}>
+              Add comment
+            </button>
+          ) : (
+            <div className="comment-form">
+              <textarea
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                placeholder="Add a comment..."
+                className="comment-textarea"
+                autoFocus
+              />
+              <div className="comment-form-actions">
+                <button className="btn btn-primary" onClick={handleAddComment} disabled={!newComment.trim()}>
+                  Add Comment
+                </button>
+                <button className="btn btn-secondary" onClick={handleCancelComment}>
+                  Cancel
+                </button>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Comments List */}
           <CommentsList

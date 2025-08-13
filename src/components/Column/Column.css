@@ -1,0 +1,134 @@
+.column {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  min-width: 250px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  max-height: 80vh;
+  transition: all 0.2s ease;
+}
+
+.column.drag-over {
+  background-color: #f0f8ff;
+  border-color: #0066cc;
+}
+
+.column-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.column-title {
+  font-weight: bold;
+  font-size: 14px;
+  margin: 0;
+}
+
+.column-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.column-action-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #666;
+}
+
+.column-action-button:hover {
+  background-color: #f5f5f5;
+}
+
+.column-menu-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.column-menu-button:hover {
+  background-color: #f5f5f5;
+}
+
+.column-menu-dots {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.column-menu-dot {
+  width: 3px;
+  height: 3px;
+  background-color: #666;
+  border-radius: 50%;
+}
+
+.column-content {
+  flex: 1;
+  padding: 8px;
+  overflow-y: auto;
+  min-height: 100px;
+}
+
+.column-footer {
+  padding: 12px 16px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-task-button {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.add-task-button:hover {
+  background-color: #f5f5f5;
+}
+
+.add-task-icon {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.column-actions-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.column-actions-buttons button {
+  background: none;
+  border: 1px solid #ccc;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.column-actions-buttons button:hover {
+  background-color: #f5f5f5;
+}

@@ -38,15 +38,15 @@ const initialState: Kanban = {
     { id: "finished", title: "Finished" },
   ],
   tasks: [
-    { id: "task1", title: "clean", comments: [], columnId: "todo" },
-    { id: "Task2", title: "grocery shop", comments: [], columnId: "in_progress" },
-    { id: "task3", title: "repair car", comments: [], columnId: "finished" },
-    { id: "task4", title: "find clothes", comments: [], columnId: "in_progress" },
+    { id: "task1", title: "clean", description: "clean the house", comments: [], columnId: "todo" },
+    { id: "Task2", title: "grocery shop", description: "buy groceries", comments: [], columnId: "in_progress" },
+    { id: "task3", title: "repair car", description: "repair the car", comments: [], columnId: "finished" },
+    { id: "task4", title: "find clothes", description: "find clothes", comments: [], columnId: "in_progress" },
   ],
 };
 
 type Action =
-  | { type: "ADD_TASK"; columnId: string; title: string }
+  | { type: "ADD_TASK"; columnId: string; title: string; description: string }
   | { type: "DELETE_TASK"; taskId: string }
   | { type: "ADD_COLUMN"; columnId: string; title: string }
   | { type: "DELETE_COLUMN"; columnId: string }
@@ -65,6 +65,7 @@ function reducer(state: Kanban, action: Action): Kanban {
         title: action.title,
         comments: [],
         columnId: action.columnId,
+        description: action.description,
       };
       return { ...state, tasks: [...state.tasks, newTask] };
     }
@@ -150,7 +151,7 @@ function reducer(state: Kanban, action: Action): Kanban {
 
 type KanbanContextValue = {
   state: Kanban;
-  addTask: (columnId: string, taskTitle: string) => void;
+  addTask: (columnId: string, taskTitle: string, description: string) => void;
   deleteTask: (taskId: string) => void;
   addColumn: (columnId: string, title: string) => void;
   deleteColumn: (columnId: string) => void;
@@ -171,8 +172,8 @@ export function KanbanProvider({ children }: { children: ReactNode }) {
     saveToStorage(state);
   }, [state]);
 
-  function addTask(columnId: string, taskTitle: string) {
-    dispatch({ type: "ADD_TASK", columnId, title: taskTitle });
+  function addTask(columnId: string, taskTitle: string, description: string) {
+    dispatch({ type: "ADD_TASK", columnId, title: taskTitle, description: description });
   }
 
   function deleteTask(taskId: string) {
