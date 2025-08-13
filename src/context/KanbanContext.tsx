@@ -1,5 +1,35 @@
-import { createContext, useContext, useReducer, type ReactNode } from "react";
+import { createContext, useContext, useReducer, type ReactNode, useEffect } from "react";
 import type { Kanban, Task, Comment } from "../types";
+
+const STORAGE_KEY = "kanban-data";
+
+function saveToStorage(data: Kanban) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch (error) {
+    console.error("failed to save to local storage");
+  }
+}
+
+function loadFromStorage(): Kanban | null {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : null;
+  } catch (error) {
+    console.error("Failed to loado from local storage");
+
+    return null;
+  }
+}
+
+function getInitialState(): Kanban {
+  const stored = loadFromStorage();
+  if (stored) {
+    return stored;
+  }
+
+  return initialState;
+}
 
 const initialState: Kanban = {
   columns: [
@@ -135,7 +165,11 @@ type KanbanContextValue = {
 const KanbanContext = createContext<KanbanContextValue | undefined>(undefined);
 
 export function KanbanProvider({ children }: { children: ReactNode }) {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, getInitialState());
+
+  useEffect(() => {
+    saveToStorage(state);
+  }, [state]);
 
   function addTask(columnId: string, taskTitle: string) {
     dispatch({ type: "ADD_TASK", columnId, title: taskTitle });
