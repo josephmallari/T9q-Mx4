@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useKanban } from "../../context/KanbanContext";
 import type { Task } from "../../types";
 import TaskCard from "./TaskCard";
-import TaskModal from "./TaskModal";
+import TaskModalNew from "./TaskModalNew";
 
 interface TaskProps {
   task: Task;
@@ -29,7 +29,7 @@ export default function Task({ task }: TaskProps) {
   return (
     <>
       <TaskCard task={task} onClick={() => setIsModalOpen(true)} />
-      <TaskModal
+      <TaskModalNew
         task={task}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { useKanban } from "../../context/KanbanContext";
 import Task from "../Task/Task";
+import ColumnRenameModal from "./ColumnRenameModal";
 import type { Column as ColumnType } from "../../types";
 
 interface ColumnProps {
@@ -10,6 +11,7 @@ interface ColumnProps {
 export default function Column({ column }: ColumnProps) {
   const { state, addTask, deleteColumn, renameColumn, moveTask } = useKanban();
   const [isDragOver, setIsDragOver] = useState(false);
+  const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
   const dropRef = useRef<HTMLDivElement>(null);
 
   const columnTasks = state.tasks.filter((task) => task.columnId === column.id);
@@ -62,15 +64,18 @@ export default function Column({ column }: ColumnProps) {
       <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
         <button onClick={() => addTask(column.id, "task")}>add task</button>
         <button onClick={() => deleteColumn(column.id)}>delete column</button>
-        <button
-          onClick={() => {
-            const newTitle = prompt("New column title:", column.title)?.trim();
-            if (newTitle) renameColumn(column.id, newTitle);
-          }}
-        >
-          rename column
-        </button>
+        <button onClick={() => setIsRenameModalOpen(true)}>rename column</button>
       </div>
+
+      <ColumnRenameModal
+        isOpen={isRenameModalOpen}
+        onClose={() => setIsRenameModalOpen(false)}
+        currentTitle={column.title}
+        onRename={(newTitle) => {
+          renameColumn(column.id, newTitle);
+          setIsRenameModalOpen(false);
+        }}
+      />
     </div>
   );
 }
