@@ -6,7 +6,7 @@ import { useState } from "react";
 
 function App() {
   const { state, addColumn } = useKanban();
-  const [isAddColumnModalOpen, setIsAddColumnModalOpen] = useState(false);
+  const [isAddColumnVisible, setIsAddColumnVisible] = useState(false);
 
   const handleAddColumn = (title: string) => {
     const id = `col_${Date.now()}`;
@@ -20,14 +20,16 @@ function App() {
         {state.columns.map((column) => (
           <Column key={column.id} column={column} />
         ))}
-        <button onClick={() => setIsAddColumnModalOpen(true)}>add column</button>
+        {isAddColumnVisible ? (
+          <AddColumnModal
+            isVisible={isAddColumnVisible}
+            onClose={() => setIsAddColumnVisible(false)}
+            onAdd={handleAddColumn}
+          />
+        ) : (
+          <button onClick={() => setIsAddColumnVisible(true)}>add column</button>
+        )}
       </div>
-
-      <AddColumnModal
-        isOpen={isAddColumnModalOpen}
-        onClose={() => setIsAddColumnModalOpen(false)}
-        onAdd={handleAddColumn}
-      />
     </>
   );
 }

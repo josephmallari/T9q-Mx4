@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 import { useKanban } from "../../context/KanbanContext";
 import Task from "../Task/Task";
-import ColumnRenameModal from "./ColumnRenameModal";
 import AddTaskModal from "../Task/AddTaskModal";
 import type { Column as ColumnType } from "../../types";
 import "./Column.css";
@@ -13,9 +12,11 @@ interface ColumnProps {
 export default function Column({ column }: ColumnProps) {
   const { state, addTask, deleteColumn, renameColumn, moveTask } = useKanban();
   const [isDragOver, setIsDragOver] = useState(false);
-  const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
   const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editTitle, setEditTitle] = useState(column.title);
   const dropRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const columnTasks = state.tasks.filter((task) => task.columnId === column.id);
 
@@ -46,6 +47,47 @@ export default function Column({ column }: ColumnProps) {
     addTask(column.id, title, description);
   };
 
+  const handleStartEdit = () => {
+    setIsEditing(true);
+    setEditTitle(column.title);
+    // Focus the input after a brief delay to ensure it's rendered
+    setTimeout(() => {
+      inputRef.current?.focus();
+      inputRef.current?.select();
+    }, 0);
+  };
+
+  const handleSaveEdit = () => {
+    const trimmedTitle = editTitle.trim();
+    if (trimmedTitle) {
+      renameColumn(column.id, trimmedTitle);
+    }
+    setIsEditing(false);
+  };
+
+  const handleCancelEdit = () => {
+    setEditTitle(column.title);
+    setIsEditing(false);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleSaveEdit();
+    } else if (e.key === "Escape") {
+      handleCancelEdit();
+    }
+  };
+
+  const handleDeleteColumn = () => {
+    if (
+      window.confirm(
+        `Are you sure you want to delete the column "${column.title}"? This will also delete all tasks in this column.`
+      )
+    ) {
+      deleteColumn(column.id);
+    }
+  };
+
   return (
     <div
       ref={dropRef}
@@ -55,12 +97,26 @@ export default function Column({ column }: ColumnProps) {
       onDrop={handleDrop}
     >
       <div className="column-header">
-        <h3 className="column-title">{column.title}</h3>
+        {isEditing ? (
+          <div className="column-title-edit">
+            <input
+              ref={inputRef}
+              type="text"
+              value={editTitle}
+              onChange={(e) => setEditTitle(e.target.value)}
+              onKeyDown={handleKeyDown}
+              onBlur={handleSaveEdit}
+              className="column-title-input"
+              maxLength={50}
+            />
+          </div>
+        ) : (
+          <h3 className="column-title" onClick={handleStartEdit}>
+            {column.title}
+          </h3>
+        )}
         <div className="column-actions">
-          <button className="column-action-button" onClick={() => setIsRenameModalOpen(true)}>
-            rename
-          </button>
-          <button className="column-action-button" onClick={() => deleteColumn(column.id)}>
+          <button className="column-action-button" onClick={handleDeleteColumn}>
             delete
           </button>
         </div>
@@ -78,16 +134,6 @@ export default function Column({ column }: ColumnProps) {
           Add another card
         </button>
       </div>
-
-      <ColumnRenameModal
-        isOpen={isRenameModalOpen}
-        onClose={() => setIsRenameModalOpen(false)}
-        currentTitle={column.title}
-        onRename={(newTitle) => {
-          renameColumn(column.id, newTitle);
-          setIsRenameModalOpen(false);
-        }}
-      />
 
       <AddTaskModal isOpen={isAddTaskModalOpen} onClose={() => setIsAddTaskModalOpen(false)} onAdd={handleAddTask} />
     </div>

@@ -50,6 +50,34 @@
   font-weight: 600;
 }
 
+.modal-title--editable {
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.modal-title--editable:hover {
+  background-color: #f0f8ff;
+  border: 1px dashed #0066cc;
+}
+
+.modal-title--editable::after {
+  content: "✏️";
+  position: absolute;
+  right: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.modal-title--editable:hover::after {
+  opacity: 1;
+}
+
 .modal-close-button {
   background: #000;
   border: none;

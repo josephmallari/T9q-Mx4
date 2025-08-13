@@ -1,14 +1,13 @@
 import { useState } from "react";
-import Modal from "../Modal/Modal";
 import "./AddColumnModal.css";
 
 interface AddColumnModalProps {
-  isOpen: boolean;
+  isVisible: boolean;
   onClose: () => void;
   onAdd: (title: string) => void;
 }
 
-export default function AddColumnModal({ isOpen, onClose, onAdd }: AddColumnModalProps) {
+export default function AddColumnModal({ isVisible, onClose, onAdd }: AddColumnModalProps) {
   const [title, setTitle] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -25,32 +24,31 @@ export default function AddColumnModal({ isOpen, onClose, onAdd }: AddColumnModa
     onClose();
   };
 
-  return (
-    <Modal isOpen={isOpen} onClose={handleClose} title="Add New Column" size="small">
-      <form onSubmit={handleSubmit} className="add-column-form">
-        <div className="form-group">
-          <label htmlFor="column-title">Column Title</label>
-          <input
-            id="column-title"
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Enter column title..."
-            className="form-input"
-            autoFocus
-            required
-          />
-        </div>
+  if (!isVisible) {
+    return null;
+  }
 
-        <div className="form-actions">
-          <button type="button" onClick={handleClose} className="btn btn-secondary">
-            Cancel
+  return (
+    <div className="add-column-inline">
+      <form onSubmit={handleSubmit} className="add-column-form">
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Enter list name..."
+          className="add-column-input"
+          autoFocus
+          required
+        />
+        <div className="add-column-actions">
+          <button type="submit" className="add-column-btn" disabled={!title.trim()}>
+            Add list
           </button>
-          <button type="submit" className="btn btn-primary" disabled={!title.trim()}>
-            Add Column
+          <button type="button" onClick={handleClose} className="add-column-close">
+            ✕
           </button>
         </div>
       </form>
-    </Modal>
+    </div>
   );
 }

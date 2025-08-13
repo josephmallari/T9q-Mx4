@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import type { Task } from "../../types";
 import { useKanban } from "../../context/KanbanContext";
 import Modal from "../Modal/Modal";
@@ -9,14 +9,19 @@ interface TaskModalNewProps {
   task: Task;
   isOpen: boolean;
   onClose: () => void;
-  onRename: () => void;
   onDelete: () => void;
 }
 
-export default function TaskModalNew({ task, isOpen, onClose, onRename, onDelete }: TaskModalNewProps) {
-  const { addComment, deleteComment, editComment } = useKanban();
+export default function TaskModalNew({ task, isOpen, onClose, onDelete }: TaskModalNewProps) {
+  const { addComment, deleteComment, editComment, renameTask, updateTaskDescription } = useKanban();
   const [newComment, setNewComment] = useState("");
   const [showCommentForm, setShowCommentForm] = useState(false);
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
+  const [isEditingDescription, setIsEditingDescription] = useState(false);
+  const [editTitle, setEditTitle] = useState(task.title);
+  const [editDescription, setEditDescription] = useState(task.description);
+  const titleInputRef = useRef<HTMLInputElement>(null);
+  const descriptionInputRef = useRef<HTMLTextAreaElement>(null);
 
   const handleAddComment = () => {
     if (newComment.trim()) {
@@ -39,25 +44,126 @@ export default function TaskModalNew({ task, isOpen, onClose, onRename, onDelete
     setShowCommentForm(false);
   };
 
+  const handleStartEditTitle = () => {
+    setIsEditingTitle(true);
+    setEditTitle(task.title);
+    setTimeout(() => {
+      titleInputRef.current?.focus();
+      titleInputRef.current?.select();
+    }, 0);
+  };
+
+  const handleSaveEditTitle = () => {
+    const trimmedTitle = editTitle.trim();
+    if (trimmedTitle) {
+      renameTask(task.id, trimmedTitle);
+    }
+    setIsEditingTitle(false);
+  };
+
+  const handleCancelEditTitle = () => {
+    setEditTitle(task.title);
+    setIsEditingTitle(false);
+  };
+
+  const handleStartEditDescription = () => {
+    setIsEditingDescription(true);
+    setEditDescription(task.description);
+    setTimeout(() => {
+      descriptionInputRef.current?.focus();
+      descriptionInputRef.current?.select();
+    }, 0);
+  };
+
+  const handleSaveEditDescription = () => {
+    updateTaskDescription(task.id, editDescription);
+    setIsEditingDescription(false);
+  };
+
+  const handleCancelEditDescription = () => {
+    setEditDescription(task.description);
+    setIsEditingDescription(false);
+  };
+
+  const handleTitleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleSaveEditTitle();
+    } else if (e.key === "Escape") {
+      handleCancelEditTitle();
+    }
+  };
+
+  const handleDescriptionKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && e.ctrlKey) {
+      handleSaveEditDescription();
+    } else if (e.key === "Escape") {
+      handleCancelEditDescription();
+    }
+  };
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={task.title} size="large">
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title={isEditingTitle ? editTitle : task.title}
+      size="large"
+      isTitleEditable={!isEditingTitle}
+      onTitleEdit={handleStartEditTitle}
+    >
       <div className="task-modal-content">
+        {isEditingTitle && (
+          <div className="task-title-edit">
+            <input
+              ref={titleInputRef}
+              type="text"
+              value={editTitle}
+              onChange={(e) => setEditTitle(e.target.value)}
+              onKeyDown={handleTitleKeyDown}
+              onBlur={handleSaveEditTitle}
+              className="task-title-input"
+              maxLength={100}
+            />
+          </div>
+        )}
+
         <div className="task-modal-actions">
-          <button className="btn btn-primary" onClick={onRename}>
-            Rename Task
-          </button>
           <button className="btn btn-danger" onClick={onDelete}>
             Delete Task
           </button>
         </div>
 
         {/* Task Description */}
-        {task.description && (
-          <div className="task-description-section">
-            <h3>Description</h3>
-            <p className="task-description">{task.description}</p>
-          </div>
-        )}
+        <div className="task-description-section">
+          <h3>Description</h3>
+          {isEditingDescription ? (
+            <div className="task-description-edit">
+              <textarea
+                ref={descriptionInputRef}
+                value={editDescription}
+                onChange={(e) => setEditDescription(e.target.value)}
+                onKeyDown={handleDescriptionKeyDown}
+                className="task-description-input"
+                placeholder="Add a description..."
+                rows={4}
+              />
+              <div className="task-description-actions">
+                <button className="btn btn-primary" onClick={handleSaveEditDescription}>
+                  Save
+                </button>
+                <button className="btn btn-secondary" onClick={handleCancelEditDescription}>
+                  Cancel
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="task-description-display">
+              <p className="task-description">{task.description || "No description"}</p>
+              <button className="btn btn-secondary edit-description-btn" onClick={handleStartEditDescription}>
+                Edit
+              </button>
+            </div>
+          )}
+        </div>
 
         {/* Comments Section */}
         <div className="comments-section">

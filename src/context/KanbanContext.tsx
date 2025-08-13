@@ -52,6 +52,7 @@ type Action =
   | { type: "DELETE_COLUMN"; columnId: string }
   | { type: "RENAME_COLUMN"; columnId: string; newTitle: string }
   | { type: "RENAME_TASK"; taskId: string; newTitle: string }
+  | { type: "UPDATE_TASK_DESCRIPTION"; taskId: string; newDescription: string }
   | { type: "ADD_COMMENT"; taskId: string; comment: string }
   | { type: "DELETE_COMMENT"; taskId: string; commentId: string }
   | { type: "EDIT_COMMENT"; taskId: string; commentId: string; newText: string }
@@ -95,6 +96,14 @@ function reducer(state: Kanban, action: Action): Kanban {
       return {
         ...state,
         tasks: state.tasks.map((task) => (task.id === action.taskId ? { ...task, title: action.newTitle } : task)),
+      };
+    }
+    case "UPDATE_TASK_DESCRIPTION": {
+      return {
+        ...state,
+        tasks: state.tasks.map((task) =>
+          task.id === action.taskId ? { ...task, description: action.newDescription } : task
+        ),
       };
     }
     case "ADD_COMMENT": {
@@ -157,6 +166,7 @@ type KanbanContextValue = {
   deleteColumn: (columnId: string) => void;
   renameColumn: (columnId: string, newTitle: string) => void;
   renameTask: (taskId: string, taskTitle: string) => void;
+  updateTaskDescription: (taskId: string, newDescription: string) => void;
   addComment: (taskId: string, comment: string) => void;
   deleteComment: (taskId: string, commentId: string) => void;
   editComment: (taskId: string, commentId: string, newText: string) => void;
@@ -196,6 +206,10 @@ export function KanbanProvider({ children }: { children: ReactNode }) {
     dispatch({ type: "RENAME_TASK", taskId, newTitle: taskTitle });
   }
 
+  function updateTaskDescription(taskId: string, newDescription: string) {
+    dispatch({ type: "UPDATE_TASK_DESCRIPTION", taskId, newDescription });
+  }
+
   function addComment(taskId: string, comment: string) {
     dispatch({ type: "ADD_COMMENT", taskId, comment });
   }
@@ -222,6 +236,7 @@ export function KanbanProvider({ children }: { children: ReactNode }) {
         deleteColumn,
         renameColumn,
         renameTask,
+        updateTaskDescription,
         moveTask,
         addComment,
         deleteComment,
