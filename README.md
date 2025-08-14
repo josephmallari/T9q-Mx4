@@ -1,11 +1,24 @@
-# React + TypeScript + Vite
+# Kanban Board
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Installation
 
-Currently, two official plugins are available:
+`npm install`  
+`npm run dev`
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Bootstrapped with Vite
+
+## Approach
+
+I used trello.com as an inspiration for the KanBan board. For the reason that it's very minimalist and thought that it would be good way to show my fundamental skills.
+
+## State Management
+I used Context API for state management. I'm most comfortable with it with state management as opposed to Redux which I have used in the past. Though I'm open to using it, Zustand, or any other state management if necessary.
+
+## Styling
+I used plain CSS for this project. I'm most comfortable and fastest with it. I'm used styled components, MUI, shadcn, Tailwind, SASS, but I'm fastest with CSS/SASS
+
+
+
 
 ## Expanding the ESLint configuration
 
