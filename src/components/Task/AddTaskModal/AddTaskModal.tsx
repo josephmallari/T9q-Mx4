@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Modal from "./Modal";
+import Modal from "../../Modal/Modal";
 import "./AddTaskModal.css";
 
 interface AddTaskModalProps {

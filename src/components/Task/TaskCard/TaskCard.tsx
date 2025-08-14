@@ -1,6 +1,7 @@
 import { useRef } from "react";
-import type { Task } from "../../types";
+import type { Task } from "../../../types";
 import "./TaskCard.css";
+import { MessageCircle } from "lucide-react";
 
 interface TaskCardProps {
   task: Task;
@@ -14,21 +15,21 @@ export default function TaskCard({ task, onClick }: TaskCardProps) {
     e.dataTransfer.setData("text/plain", task.id);
     e.dataTransfer.effectAllowed = "move";
 
-    // Add visual feedback
+    // visual styles on drag
     if (dragRef.current) {
       dragRef.current.style.opacity = "0.5";
     }
   };
 
   const handleDragEnd = (e: React.DragEvent) => {
-    // Remove visual feedback
+    // remove visual styles
     if (dragRef.current) {
       dragRef.current.style.opacity = "1";
     }
   };
 
   const handleClick = (e: React.MouseEvent) => {
-    // Prevent click when dragging
+    // prevent click when dragging
     if ((e.currentTarget as HTMLElement).style.opacity !== "0.5") {
       onClick();
     }
@@ -47,6 +48,7 @@ export default function TaskCard({ task, onClick }: TaskCardProps) {
       {task.description && <div className="task-card-description">{task.description}</div>}
       {task.comments.length > 0 && (
         <div className="task-card-comments">
+          <MessageCircle size={16} />
           {task.comments.length} comment{task.comments.length !== 1 ? "s" : ""}
         </div>
       )}

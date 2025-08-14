@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useKanban } from "../../context/KanbanContext";
 import type { Task } from "../../types";
-import TaskCard from "./TaskCard";
-import TaskModal from "./TaskModal";
-import "./TaskCard.css";
+import TaskCard from "./TaskCard/TaskCard";
+import TaskModal from "./TaskModal/TaskModal";
+import "./TaskCard/TaskCard.css";
 
 interface TaskProps {
   task: Task;

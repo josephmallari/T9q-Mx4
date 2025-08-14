@@ -50,11 +50,6 @@
   gap: 4px;
 }
 
-.task-card-comments::before {
-  content: "💬";
-  font-size: 10px;
-}
-
 /* Drag feedback styles */
 .task-card[draggable="true"] {
   cursor: grab;

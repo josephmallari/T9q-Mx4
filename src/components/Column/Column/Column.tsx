@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useKanban } from "../../../context/KanbanContext";
 import Task from "../../Task/Task";
-import AddTaskModal from "../../Modal/AddTaskModal";
+import AddTaskModal from "../../Task/AddTaskModal/AddTaskModal";
 import type { Column as ColumnType } from "../../../types";
 import { Plus } from "lucide-react";
 import "./Column.css";
