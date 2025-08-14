@@ -1,18 +1,18 @@
 .column {
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-md);
   min-width: 250px;
-  background-color: white;
+  background-color: var(--background-white);
   display: flex;
   flex-direction: column;
   height: fit-content;
   max-height: 80vh;
-  transition: all 0.2s ease;
+  transition: all var(--transition-fast);
 }
 
 .column.drag-over {
   background-color: #f0f8ff;
-  border-color: #0066cc;
+  border-color: var(--primary-color);
 }
 
 .column-header {
@@ -25,17 +25,17 @@
 
 .column-title {
   font-weight: bold;
-  font-size: 14px;
+  font-size: var(--text-base);
   width: 100%;
   margin: 0;
   cursor: pointer;
   padding: 2px 4px;
-  border-radius: 4px;
-  transition: background-color 0.2s ease;
+  border-radius: var(--border-radius-sm);
+  transition: background-color var(--transition-fast);
 }
 
 .column-title:hover {
-  background-color: #f5f5f5;
+  background-color: var(--secondary-color);
 }
 
 .column-title-edit {
@@ -45,18 +45,13 @@
 
 .column-title-input {
   width: 100%;
-  font-size: 14px;
+  font-size: var(--text-base);
   font-weight: bold;
-  border: 2px solid #0066cc;
-  border-radius: 4px;
+  border: 2px solid var(--primary-color);
+  border-radius: var(--border-radius-sm);
   padding: 2px 4px;
   outline: none;
-  background-color: white;
-}
-
-.column-title-input:focus {
-  border-color: #0066cc;
-  box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2);
+  background-color: var(--background-white);
 }
 
 .column-actions {
@@ -70,41 +65,13 @@
   border: none;
   cursor: pointer;
   padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  color: #666;
+  border-radius: var(--border-radius-sm);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
 }
 
 .column-action-button:hover {
-  background-color: #f5f5f5;
-}
-
-.column-menu-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.column-menu-button:hover {
-  background-color: #f5f5f5;
-}
-
-.column-menu-dots {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.column-menu-dot {
-  width: 3px;
-  height: 3px;
-  background-color: #666;
-  border-radius: 50%;
+  background-color: var(--secondary-color);
 }
 
 .column-content {
@@ -124,40 +91,16 @@
 .add-task-button {
   background: none;
   border: none;
-  color: #666;
+  color: var(--text-secondary);
   cursor: pointer;
-  font-size: 14px;
+  font-size: var(--text-base);
   padding: 8px 12px;
-  border-radius: 4px;
+  border-radius: var(--border-radius-sm);
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
 .add-task-button:hover {
-  background-color: #f5f5f5;
-}
-
-.add-task-icon {
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.column-actions-buttons {
-  display: flex;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.column-actions-buttons button {
-  background: none;
-  border: 1px solid #ccc;
-  padding: 4px 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-}
-
-.column-actions-buttons button:hover {
-  background-color: #f5f5f5;
+  background-color: var(--secondary-color);
 }

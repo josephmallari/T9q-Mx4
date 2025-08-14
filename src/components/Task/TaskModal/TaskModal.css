@@ -4,72 +4,20 @@
 
 .task-title-input {
   width: 100%;
-  font-size: 24px;
+  font-size: var(--text-xl);
   font-weight: 600;
-  border: 2px solid #0066cc;
-  border-radius: 8px;
+  border: 2px solid var(--primary-color);
+  border-radius: var(--border-radius-md);
   padding: 8px 12px;
   outline: none;
-  background-color: white;
+  background-color: var(--background-white);
   margin-bottom: 16px;
-}
-
-.task-title-input:focus {
-  border-color: #0066cc;
-  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.2);
 }
 
 .task-modal-actions {
   display: flex;
   gap: 12px;
   margin-bottom: 24px;
-}
-
-.btn {
-  padding: 12px 20px;
-  border: 2px solid #000;
-  border-radius: 12px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
-  transition: all 0.2s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.btn-primary {
-  background-color: #000;
-  color: white;
-}
-
-.btn-primary:hover {
-  background-color: #333;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-.btn-secondary {
-  background-color: white;
-  color: #000;
-}
-
-.btn-secondary:hover {
-  background-color: #f5f5f5;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.btn-danger {
-  background-color: rgba(255, 0, 0, 0.5);
-  color: black;
-  border-color: red;
-}
-
-.btn-danger:hover {
-  background-color: #cc0000;
-  border-color: #cc0000;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
 }
 
 .task-description-section {
@@ -79,19 +27,19 @@
 
 .task-description-section h3 {
   margin: 0 0 12px 0;
-  font-size: 18px;
-  color: #333;
+  font-size: var(--text-lg);
+  color: var(--text-primary);
   text-align: left;
 }
 
 .task-description {
   margin: 0;
-  font-size: 14px;
+  font-size: var(--text-base);
   line-height: 1.5;
-  color: #666;
-  background-color: #f8f9fa;
+  color: var(--text-secondary);
+  background-color: var(--background-light);
   padding: 12px;
-  border-radius: 8px;
+  border-radius: var(--border-radius-md);
 }
 
 .task-description-display {
@@ -110,7 +58,7 @@
 .edit-description-btn {
   flex-shrink: 0;
   padding: 8px 16px;
-  font-size: 12px;
+  font-size: var(--text-sm);
 }
 
 .task-description-actions {
@@ -121,7 +69,7 @@
 
 .task-description-actions .btn {
   padding: 8px 16px;
-  font-size: 12px;
+  font-size: var(--text-sm);
 }
 
 .task-description-edit {
@@ -130,22 +78,17 @@
 
 .task-description-input {
   width: 100%;
-  font-size: 14px;
+  font-size: var(--text-base);
   line-height: 1.5;
-  border: 2px solid #0066cc;
-  border-radius: 8px;
+  border: 2px solid var(--primary-color);
+  border-radius: var(--border-radius-md);
   padding: 12px;
   outline: none;
-  background-color: white;
+  background-color: var(--background-white);
   resize: vertical;
   font-family: inherit;
   min-height: 80px;
   box-sizing: border-box;
-}
-
-.task-description-input:focus {
-  border-color: #0066cc;
-  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.2);
 }
 
 /* Comments Section */
@@ -155,13 +98,9 @@
 
 .comments-section h3 {
   margin: 0 0 16px 0;
-  font-size: 18px;
-  color: #333;
+  font-size: var(--text-lg);
+  color: var(--text-primary);
   text-align: left;
-}
-
-.add-comment-button {
-  margin-bottom: 20px;
 }
 
 .comment-form {
@@ -173,14 +112,14 @@
   min-height: 80px;
   padding: 16px;
   border: 2px solid #000;
-  border-radius: 12px;
+  border-radius: var(--border-radius-lg);
   resize: vertical;
   font-family: inherit;
-  font-size: 14px;
+  font-size: var(--text-base);
   font-weight: 500;
   margin-bottom: 12px;
-  background-color: white;
-  transition: all 0.2s ease;
+  background-color: var(--background-white);
+  transition: all var(--transition-fast);
   box-sizing: border-box;
 }
 

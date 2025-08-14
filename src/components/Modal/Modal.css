@@ -12,10 +12,10 @@
 }
 
 .modal-content {
-  background-color: #fff;
+  background-color: var(--background-white);
   padding: 24px;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  border-radius: var(--border-radius-xl);
+  box-shadow: var(--shadow-heavy);
   max-height: 80vh;
   overflow-y: auto;
   border: 2px solid #000;
@@ -39,36 +39,31 @@
 
 .modal-title {
   margin: 0;
-  font-size: 24px;
-  color: #000;
+  font-size: var(--text-xl);
+  color: var(--text-primary);
   font-weight: 600;
 }
 
 .modal-title--editable {
   cursor: pointer;
-  border-radius: 6px;
-  transition: all 0.2s ease;
+  border-radius: var(--border-radius-sm);
+  transition: all var(--transition-fast);
   position: relative;
   width: 100%;
 }
 
 .modal-title-input {
   margin: 0;
-  font-size: 24px;
-  color: #000;
+  font-size: var(--text-xl);
+  color: var(--text-primary);
   font-weight: 600;
-  border: 2px solid #0066cc;
-  border-radius: 8px;
+  border: 2px solid var(--primary-color);
+  border-radius: var(--border-radius-md);
   padding: 4px 8px;
   outline: none;
-  background-color: #fff;
+  background-color: var(--background-white);
   width: 100%;
   max-width: 500px;
-}
-
-.modal-title-input:focus {
-  border-color: #0066cc;
-  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.2);
 }
 
 .modal-close-button {
@@ -80,8 +75,8 @@
   align-items: center;
   justify-content: center;
   color: #fff;
-  border-radius: 8px;
-  transition: all 0.2s ease;
+  border-radius: var(--border-radius-md);
+  transition: all var(--transition-fast);
 }
 
 .modal-close-button:hover {
