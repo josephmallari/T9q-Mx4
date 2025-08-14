@@ -84,13 +84,7 @@ export default function Column({ column }: ColumnProps) {
   };
 
   const handleDeleteColumn = () => {
-    if (
-      window.confirm(
-        `Are you sure you want to delete the column "${column.title}"? This will also delete all tasks in this column.`
-      )
-    ) {
-      deleteColumn(column.id, column.title);
-    }
+    deleteColumn(column.id, column.title);
   };
 
   return (

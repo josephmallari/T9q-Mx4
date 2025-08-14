@@ -1,82 +1,42 @@
 # Kanban Board
 
+A modern, responsive Kanban board application built with React and TypeScript, inspired by Trello's clean and intuitive interface.
+
+## Features
+
+- **Drag & Drop**: Seamlessly move tasks between columns
+- **Task Management**: Create, edit, and delete tasks with descriptions and comments
+- **Column Operations**: Add, rename, and remove columns dynamically
+- **Persistent Storage**: Data persists across browser sessions using localStorage
+- **Responsive Design**: Works seamlessly on desktop and mobile devices
+- **Real-time Updates**: Instant UI updates with React Context API
+
 ## Installation
 
-`npm install`  
-`npm run dev`
+```bash
+npm install
+npm run dev
+```
 
 Bootstrapped with Vite
 
-## Approach
+## Technical Approach
 
-I used trello.com as an inspiration for the KanBan board. For the reason that it's very minimalist and thought that it would be good way to show my fundamental skills.
+### Design Philosophy
 
-## State Management
-I used Context API for state management. I'm most comfortable with it with state management as opposed to Redux which I have used in the past. Though I'm open to using it, Zustand, or any other state management if necessary.
+I chose Trello.com as inspiration for this Kanban board due to its minimalist design and intuitive user experience. This approach allows me to demonstrate fundamental React development skills while creating a practical, user-friendly application.
 
-## Styling
-I used plain CSS for this project. I'm most comfortable and fastest with it. I'm used styled components, MUI, shadcn, Tailwind, SASS, but I'm fastest with CSS/SASS
+### State Management
 
+I implemented React's Context API for state management, leveraging its built-in capabilities for prop drilling avoidance and component communication. While I have experience with Redux, Zustand, and other state management solutions, Context API provides the perfect balance of simplicity and power for this application's needs.
 
+### Styling Strategy
 
+I opted for vanilla CSS to maximize development speed and maintain full control over the styling. While I'm proficient with styled-components, Material-UI, shadcn/ui, and Tailwind CSS, vanilla CSS allows for rapid prototyping and precise customization without additional dependencies.
 
-## Expanding the ESLint configuration
+### Architecture Highlights
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **Component Structure**: Modular components with clear separation of concerns
+- **Type Safety**: Full TypeScript implementation for better development experience
+- **Custom Hooks**: Reusable logic extraction for column, task, and comment operations
+- **Local Storage**: Persistent data management without external dependencies
