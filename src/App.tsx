@@ -1,6 +1,6 @@
 import "./App.css";
-import Column from "./components/Column/Column";
-import AddColumnModal from "./components/Column/AddColumnModal";
+import Column from "./components/Column/Column/Column";
+import AddColumn from "./components/Column/AddColumn/AddColumn";
 import { useKanban } from "./context/KanbanContext";
 import { useState } from "react";
 
@@ -21,7 +21,7 @@ function App() {
           <Column key={column.id} column={column} />
         ))}
         {isAddColumnVisible ? (
-          <AddColumnModal
+          <AddColumn
             isVisible={isAddColumnVisible}
             onClose={() => setIsAddColumnVisible(false)}
             onAdd={handleAddColumn}

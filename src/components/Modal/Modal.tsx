@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { X } from "lucide-react";
 import "./Modal.css";
 
 interface ModalProps {
@@ -6,7 +7,6 @@ interface ModalProps {
   onClose: () => void;
   title: string;
   children: ReactNode;
-  size?: "small" | "medium" | "large";
   isTitleEditable?: boolean;
   onTitleEdit?: () => void;
   isEditingTitle?: boolean;
@@ -21,7 +21,6 @@ export default function Modal({
   onClose,
   title,
   children,
-  size = "medium",
   isTitleEditable = false,
   onTitleEdit,
   isEditingTitle = false,
@@ -40,7 +39,7 @@ export default function Modal({
 
   return (
     <div className="modal-overlay" onClick={handleOverlayClick}>
-      <div className={`modal-content modal-content--${size}`} onClick={(e) => e.stopPropagation()}>
+      <div className={`modal-content`} onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           {isEditingTitle ? (
             <input
@@ -62,7 +61,7 @@ export default function Modal({
             </h2>
           )}
           <button className="modal-close-button" onClick={onClose}>
-            ×
+            <X />
           </button>
         </div>
         <div className="modal-body">{children}</div>

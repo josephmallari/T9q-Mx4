@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import type { Task } from "../../types";
 import { useKanban } from "../../context/KanbanContext";
 import Modal from "../Modal/Modal";
-import CommentsList from "./CommentsList";
+import CommentsList from "../Comment/CommentsList";
 import "./TaskModal.css";
 
 interface TaskModalProps {
@@ -106,7 +106,6 @@ export default function TaskModal({ task, isOpen, onClose, onDelete }: TaskModal
       isOpen={isOpen}
       onClose={onClose}
       title={task.title}
-      size="large"
       isTitleEditable={!isEditingTitle}
       onTitleEdit={handleStartEditTitle}
       isEditingTitle={isEditingTitle}
@@ -154,11 +153,8 @@ export default function TaskModal({ task, isOpen, onClose, onDelete }: TaskModal
           </button>
         </div>
 
-        {/* Comments Section */}
         <div className="comments-section">
           <h3>Comments</h3>
-
-          {/* Add Comment Button/Form */}
 
           <div className="comment-form">
             <textarea
@@ -178,7 +174,6 @@ export default function TaskModal({ task, isOpen, onClose, onDelete }: TaskModal
             </div>
           </div>
 
-          {/* Comments List */}
           <CommentsList
             comments={task.comments}
             taskId={task.id}

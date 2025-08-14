@@ -1,8 +1,9 @@
 import { useRef, useState } from "react";
-import { useKanban } from "../../context/KanbanContext";
-import Task from "../Task/Task";
-import AddTaskModal from "../Task/AddTaskModal";
-import type { Column as ColumnType } from "../../types";
+import { useKanban } from "../../../context/KanbanContext";
+import Task from "../../Task/Task";
+import AddTaskModal from "../../Modal/AddTaskModal";
+import type { Column as ColumnType } from "../../../types";
+import { Plus } from "lucide-react";
 import "./Column.css";
 
 interface ColumnProps {
@@ -130,7 +131,7 @@ export default function Column({ column }: ColumnProps) {
 
       <div className="column-footer">
         <button className="add-task-button" onClick={() => setIsAddTaskModalOpen(true)}>
-          <span className="add-task-icon">+</span>
+          <Plus size={16} />
           Add Task
         </button>
       </div>

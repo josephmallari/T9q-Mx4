@@ -9,7 +9,7 @@ interface CommentProps {
   onEdit: (commentId: string, newText: string) => void;
 }
 
-export default function Comment({ comment, taskId, onDelete, onEdit }: CommentProps) {
+export default function Comment({ comment, onDelete, onEdit }: CommentProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(comment.comment);
 
@@ -21,7 +21,7 @@ export default function Comment({ comment, taskId, onDelete, onEdit }: CommentPr
   };
 
   const handleDelete = () => {
-    if (confirm("Are you sure you want to delete this comment?")) {
+    if (confirm("Are you sure you want to delete this comment? (Ideally we would have a confirmation modal)")) {
       onDelete(comment.id);
     }
   };

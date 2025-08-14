@@ -1,14 +1,14 @@
 .comment {
-  margin-bottom: 12px;
   border-left: 2px solid #e1e5e9;
+  margin-bottom: 12px;
   padding-left: 12px;
 }
 
 .comment-content {
   background-color: #f8f9fa;
   border-radius: 6px;
-  padding: 12px;
   margin-bottom: 8px;
+  padding: 12px;
 }
 
 .comment-text {
@@ -29,17 +29,6 @@
   background-color: #fff;
   border: 1px solid #e1e5e9;
   border-radius: 6px;
-}
-
-.comment-textarea {
-  width: calc(100% - 48px);
-  min-height: 60px;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  resize: vertical;
-  font-family: inherit;
-  font-size: 14px;
 }
 
 .comment-edit-actions {

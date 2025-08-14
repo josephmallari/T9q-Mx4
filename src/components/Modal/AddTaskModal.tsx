@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Modal from "../Modal/Modal";
+import Modal from "./Modal";
 import "./AddTaskModal.css";
 
 interface AddTaskModalProps {
@@ -29,7 +29,9 @@ export default function AddTaskModal({ isOpen, onClose, onAdd }: AddTaskModalPro
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose} title="Add New Task" size="medium">
+    // add markup inside Modal for better reusability, it will then be passed as children
+    <Modal isOpen={isOpen} onClose={handleClose} title="Add New Task">
+      {/* keeping form validation simple here with required and only for Task */}
       <form onSubmit={handleSubmit} className="add-task-form">
         <div className="form-group">
           <label htmlFor="task-title">Task</label>
