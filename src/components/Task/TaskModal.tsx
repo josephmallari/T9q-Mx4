@@ -15,7 +15,6 @@ interface TaskModalProps {
 export default function TaskModal({ task, isOpen, onClose, onDelete }: TaskModalProps) {
   const { addComment, deleteComment, editComment, renameTask, updateTaskDescription } = useKanban();
   const [newComment, setNewComment] = useState("");
-  const [showCommentForm, setShowCommentForm] = useState(false);
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [isEditingDescription, setIsEditingDescription] = useState(false);
   const [editTitle, setEditTitle] = useState(task.title);
@@ -27,7 +26,6 @@ export default function TaskModal({ task, isOpen, onClose, onDelete }: TaskModal
     if (newComment.trim()) {
       addComment(task.id, newComment);
       setNewComment("");
-      setShowCommentForm(false);
     }
   };
 
@@ -41,7 +39,6 @@ export default function TaskModal({ task, isOpen, onClose, onDelete }: TaskModal
 
   const handleCancelComment = () => {
     setNewComment("");
-    setShowCommentForm(false);
   };
 
   const handleStartEditTitle = () => {
@@ -115,7 +112,6 @@ export default function TaskModal({ task, isOpen, onClose, onDelete }: TaskModal
       onTitleBlur={handleSaveEditTitle}
     >
       <div className="task-modal-content">
-        {/* Task Description */}
         <div className="task-description-section">
           <h3>Description</h3>
           {isEditingDescription ? (

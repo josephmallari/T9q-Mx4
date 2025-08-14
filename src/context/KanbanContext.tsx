@@ -177,26 +177,26 @@ function reducer(state: Kanban, action: Action): Kanban {
       const targetTask = state.tasks.find((task) => task.id === action.taskId);
       if (!targetTask) return state;
 
+      // Remove the target task from all columns first
+      const tasksWithoutTarget = state.tasks.filter((task) => task.id !== action.taskId);
+
       // Get all tasks in the target column, sorted by order
-      const columnTasks = state.tasks
+      const columnTasks = tasksWithoutTarget
         .filter((task) => task.columnId === action.columnId)
         .sort((a, b) => a.order - b.order);
 
-      // Remove the target task from the column
-      const tasksWithoutTarget = columnTasks.filter((task) => task.id !== action.taskId);
-
       // Insert the target task at the new position
-      const newOrder = Math.min(action.newOrder, tasksWithoutTarget.length);
-      tasksWithoutTarget.splice(newOrder, 0, { ...targetTask, columnId: action.columnId });
+      const newOrder = Math.min(action.newOrder, columnTasks.length);
+      columnTasks.splice(newOrder, 0, { ...targetTask, columnId: action.columnId });
 
       // Update all tasks in the column with new orders
-      const updatedColumnTasks = tasksWithoutTarget.map((task, index) => ({
+      const updatedColumnTasks = columnTasks.map((task, index) => ({
         ...task,
         order: index,
       }));
 
       // Update the state by replacing all tasks in the column
-      const tasksOutsideColumn = state.tasks.filter((task) => task.columnId !== action.columnId);
+      const tasksOutsideColumn = tasksWithoutTarget.filter((task) => task.columnId !== action.columnId);
       const updatedTasks = [...tasksOutsideColumn, ...updatedColumnTasks];
 
       return { ...state, tasks: updatedTasks };
