@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useKanban } from "./useKanban";
+import { useKanban } from "../context/KanbanContext";
 
 export function useColumnOperations() {
   const { addColumn, deleteColumn, renameColumn } = useKanban();

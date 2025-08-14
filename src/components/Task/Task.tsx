@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useKanban } from "../../hooks/useKanban";
+import { useKanban } from "../../context/KanbanContext";
 import { useTaskOperations } from "../../hooks/useTaskOperations";
 import type { Task } from "../../types";
 import TaskCard from "./TaskCard/TaskCard";

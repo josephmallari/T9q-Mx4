@@ -48,7 +48,6 @@ export function KanbanProvider({ children }: { children: ReactNode }) {
 
   return <KanbanContext.Provider value={contextValue}>{children}</KanbanContext.Provider>;
 }
-
 export function useKanban() {
   const context = useContext(KanbanContext);
   if (!context) throw new Error("useKanban must be used within KanbanProvider");

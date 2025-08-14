@@ -1,7 +1,7 @@
 import "./App.css";
 import Column from "./components/Column/Column/Column";
 import AddColumn from "./components/Column/AddColumn/AddColumn";
-import { useKanban } from "./hooks/useKanban";
+import { useKanban } from "./context/KanbanContext";
 import { useColumnOperations } from "./hooks/useColumnOperations";
 import { useState, useCallback } from "react";
 

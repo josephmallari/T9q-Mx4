@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import type { Task } from "../../../types";
-import { useKanban } from "../../../hooks/useKanban";
+import { useKanban } from "../../../context/KanbanContext";
 import { useCommentOperations } from "../../../hooks/useCommentOperations";
 import { useTaskOperations } from "../../../hooks/useTaskOperations";
 import Modal from "../../Modal/Modal";

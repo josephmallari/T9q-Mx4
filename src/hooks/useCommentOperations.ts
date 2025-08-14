@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useKanban } from "./useKanban";
+import { useKanban } from "../context/KanbanContext";
 
 export function useCommentOperations() {
   const { addComment, deleteComment, editComment } = useKanban();
