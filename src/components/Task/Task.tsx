@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useKanban } from "../../context/KanbanContext";
+import { useKanban } from "../../hooks/useKanban";
+import { useTaskOperations } from "../../hooks/useTaskOperations";
 import type { Task } from "../../types";
 import TaskCard from "./TaskCard/TaskCard";
 import TaskModal from "./TaskModal/TaskModal";
@@ -11,15 +12,14 @@ interface TaskProps {
 }
 
 export default function Task({ task, index }: TaskProps) {
-  const { deleteTask, reorderTask } = useKanban();
+  const { reorderTask } = useKanban();
+  const { deleteTask } = useTaskOperations();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
 
   const handleDelete = () => {
-    if (confirm("Are you sure you want to delete this task?")) {
-      deleteTask(task.id);
-      setIsModalOpen(false);
-    }
+    deleteTask(task.id, task.title);
+    setIsModalOpen(false);
   };
 
   const handleDrop = (e: React.DragEvent) => {

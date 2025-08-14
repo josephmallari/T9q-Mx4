@@ -1,17 +1,21 @@
 import "./App.css";
 import Column from "./components/Column/Column/Column";
 import AddColumn from "./components/Column/AddColumn/AddColumn";
-import { useKanban } from "./context/KanbanContext";
-import { useState } from "react";
+import { useKanban } from "./hooks/useKanban";
+import { useColumnOperations } from "./hooks/useColumnOperations";
+import { useState, useCallback } from "react";
 
 function App() {
-  const { state, addColumn } = useKanban();
+  const { state } = useKanban();
+  const { addColumn } = useColumnOperations();
   const [isAddColumnVisible, setIsAddColumnVisible] = useState(false);
 
-  const handleAddColumn = (title: string) => {
-    const id = `col_${Date.now()}`;
-    addColumn(id, title);
-  };
+  const handleAddColumn = useCallback(
+    (title: string) => {
+      addColumn(title);
+    },
+    [addColumn]
+  );
 
   return (
     <>

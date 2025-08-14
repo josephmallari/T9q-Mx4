@@ -1,6 +1,8 @@
 import { useState, useRef } from "react";
 import type { Task } from "../../../types";
-import { useKanban } from "../../../context/KanbanContext";
+import { useKanban } from "../../../hooks/useKanban";
+import { useCommentOperations } from "../../../hooks/useCommentOperations";
+import { useTaskOperations } from "../../../hooks/useTaskOperations";
 import Modal from "../../Modal/Modal";
 import TaskDescription from "../TaskDescription";
 import TaskComments from "../TaskComments";
@@ -15,7 +17,9 @@ interface TaskModalProps {
 }
 
 export default function TaskModal({ task, isOpen, onClose, onDelete }: TaskModalProps) {
-  const { addComment, deleteComment, editComment, renameTask, updateTaskDescription } = useKanban();
+  const { updateTaskDescription } = useKanban();
+  const { addComment, deleteComment, editComment } = useCommentOperations();
+  const { renameTask } = useTaskOperations();
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [editTitle, setEditTitle] = useState(task.title);
   const titleInputRef = useRef<HTMLInputElement>(null);

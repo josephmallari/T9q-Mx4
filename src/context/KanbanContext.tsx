@@ -1,63 +1,6 @@
 import { createContext, useContext, useReducer, type ReactNode, useEffect } from "react";
 import type { Kanban, Task, Comment } from "../types";
-
-const STORAGE_KEY = "kanban-data";
-
-function saveToStorage(data: Kanban) {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  } catch (error) {
-    console.error("failed to save to local storage");
-  }
-}
-
-function loadFromStorage(): Kanban | null {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? JSON.parse(stored) : null;
-  } catch (error) {
-    console.error("Failed to loado from local storage");
-
-    return null;
-  }
-}
-
-function getInitialState(): Kanban {
-  const stored = loadFromStorage();
-  if (stored) {
-    return stored;
-  }
-
-  return initialState;
-}
-
-const initialState: Kanban = {
-  columns: [
-    { id: "todo", title: "To do" },
-    { id: "in_progress", title: "In progress" },
-    { id: "finished", title: "Finished" },
-  ],
-  tasks: [
-    { id: "task1", title: "clean", description: "clean the house", comments: [], columnId: "todo", order: 0 },
-    {
-      id: "Task2",
-      title: "grocery shop",
-      description: "buy groceries",
-      comments: [],
-      columnId: "in_progress",
-      order: 0,
-    },
-    { id: "task3", title: "repair car", description: "repair the car", comments: [], columnId: "finished", order: 0 },
-    {
-      id: "task4",
-      title: "find clothes",
-      description: "find clothes",
-      comments: [],
-      columnId: "in_progress",
-      order: 1,
-    },
-  ],
-};
+import { getInitialState, saveToStorage } from "../utils/storage";
 
 type Action =
   | { type: "ADD_TASK"; columnId: string; title: string; description: string }
@@ -76,10 +19,8 @@ type Action =
 function reducer(state: Kanban, action: Action): Kanban {
   switch (action.type) {
     case "ADD_TASK": {
-      // Get the highest order in the column and add 1
       const columnTasks = state.tasks.filter((task) => task.columnId === action.columnId);
       const maxOrder = columnTasks.length > 0 ? Math.max(...columnTasks.map((task) => task.order)) : -1;
-
       const newTask: Task = {
         id: `task_${Date.now()}`,
         title: action.title,
@@ -132,7 +73,6 @@ function reducer(state: Kanban, action: Action): Kanban {
         comment: action.comment,
         createdAt: Date.now(),
       };
-
       return {
         ...state,
         tasks: state.tasks.map((task) =>
@@ -176,29 +116,18 @@ function reducer(state: Kanban, action: Action): Kanban {
     case "REORDER_TASK": {
       const targetTask = state.tasks.find((task) => task.id === action.taskId);
       if (!targetTask) return state;
-
-      // Remove the target task from all columns first
       const tasksWithoutTarget = state.tasks.filter((task) => task.id !== action.taskId);
-
-      // Get all tasks in the target column, sorted by order
       const columnTasks = tasksWithoutTarget
         .filter((task) => task.columnId === action.columnId)
         .sort((a, b) => a.order - b.order);
-
-      // Insert the target task at the new position
       const newOrder = Math.min(action.newOrder, columnTasks.length);
       columnTasks.splice(newOrder, 0, { ...targetTask, columnId: action.columnId });
-
-      // Update all tasks in the column with new orders
       const updatedColumnTasks = columnTasks.map((task, index) => ({
         ...task,
         order: index,
       }));
-
-      // Update the state by replacing all tasks in the column
       const tasksOutsideColumn = tasksWithoutTarget.filter((task) => task.columnId !== action.columnId);
       const updatedTasks = [...tasksOutsideColumn, ...updatedColumnTasks];
-
       return { ...state, tasks: updatedTasks };
     }
     default:
@@ -223,6 +152,8 @@ type KanbanContextValue = {
 };
 
 const KanbanContext = createContext<KanbanContextValue | undefined>(undefined);
+
+export { KanbanContext };
 
 export function KanbanProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, getInitialState());

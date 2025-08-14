@@ -21,7 +21,7 @@ export default function TaskCard({ task, onClick }: TaskCardProps) {
     }
   };
 
-  const handleDragEnd = (e: React.DragEvent) => {
+  const handleDragEnd = () => {
     // remove visual styles
     if (dragRef.current) {
       dragRef.current.style.opacity = "1";

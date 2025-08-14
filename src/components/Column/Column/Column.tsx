@@ -1,5 +1,7 @@
 import { useRef, useState } from "react";
-import { useKanban } from "../../../context/KanbanContext";
+import { useKanban } from "../../../hooks/useKanban";
+import { useColumnOperations } from "../../../hooks/useColumnOperations";
+import { useTaskOperations } from "../../../hooks/useTaskOperations";
 import Task from "../../Task/Task";
 import AddTaskModal from "../../Task/AddTaskModal/AddTaskModal";
 import type { Column as ColumnType } from "../../../types";
@@ -11,7 +13,9 @@ interface ColumnProps {
 }
 
 export default function Column({ column }: ColumnProps) {
-  const { state, addTask, deleteColumn, renameColumn, moveTask } = useKanban();
+  const { state, moveTask } = useKanban();
+  const { deleteColumn, renameColumn } = useColumnOperations();
+  const { addTask } = useTaskOperations();
   const [isDragOver, setIsDragOver] = useState(false);
   const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -85,7 +89,7 @@ export default function Column({ column }: ColumnProps) {
         `Are you sure you want to delete the column "${column.title}"? This will also delete all tasks in this column.`
       )
     ) {
-      deleteColumn(column.id);
+      deleteColumn(column.id, column.title);
     }
   };
 
