@@ -38,10 +38,24 @@ const initialState: Kanban = {
     { id: "finished", title: "Finished" },
   ],
   tasks: [
-    { id: "task1", title: "clean", description: "clean the house", comments: [], columnId: "todo" },
-    { id: "Task2", title: "grocery shop", description: "buy groceries", comments: [], columnId: "in_progress" },
-    { id: "task3", title: "repair car", description: "repair the car", comments: [], columnId: "finished" },
-    { id: "task4", title: "find clothes", description: "find clothes", comments: [], columnId: "in_progress" },
+    { id: "task1", title: "clean", description: "clean the house", comments: [], columnId: "todo", order: 0 },
+    {
+      id: "Task2",
+      title: "grocery shop",
+      description: "buy groceries",
+      comments: [],
+      columnId: "in_progress",
+      order: 0,
+    },
+    { id: "task3", title: "repair car", description: "repair the car", comments: [], columnId: "finished", order: 0 },
+    {
+      id: "task4",
+      title: "find clothes",
+      description: "find clothes",
+      comments: [],
+      columnId: "in_progress",
+      order: 1,
+    },
   ],
 };
 
@@ -56,17 +70,23 @@ type Action =
   | { type: "ADD_COMMENT"; taskId: string; comment: string }
   | { type: "DELETE_COMMENT"; taskId: string; commentId: string }
   | { type: "EDIT_COMMENT"; taskId: string; commentId: string; newText: string }
-  | { type: "MOVE_TASK"; taskId: string; newColumnId: string };
+  | { type: "MOVE_TASK"; taskId: string; newColumnId: string }
+  | { type: "REORDER_TASK"; taskId: string; newOrder: number; columnId: string };
 
 function reducer(state: Kanban, action: Action): Kanban {
   switch (action.type) {
     case "ADD_TASK": {
+      // Get the highest order in the column and add 1
+      const columnTasks = state.tasks.filter((task) => task.columnId === action.columnId);
+      const maxOrder = columnTasks.length > 0 ? Math.max(...columnTasks.map((task) => task.order)) : -1;
+
       const newTask: Task = {
         id: `task_${Date.now()}`,
         title: action.title,
         comments: [],
         columnId: action.columnId,
         description: action.description,
+        order: maxOrder + 1,
       };
       return { ...state, tasks: [...state.tasks, newTask] };
     }
@@ -153,6 +173,34 @@ function reducer(state: Kanban, action: Action): Kanban {
         ),
       };
     }
+    case "REORDER_TASK": {
+      const targetTask = state.tasks.find((task) => task.id === action.taskId);
+      if (!targetTask) return state;
+
+      // Get all tasks in the target column, sorted by order
+      const columnTasks = state.tasks
+        .filter((task) => task.columnId === action.columnId)
+        .sort((a, b) => a.order - b.order);
+
+      // Remove the target task from the column
+      const tasksWithoutTarget = columnTasks.filter((task) => task.id !== action.taskId);
+
+      // Insert the target task at the new position
+      const newOrder = Math.min(action.newOrder, tasksWithoutTarget.length);
+      tasksWithoutTarget.splice(newOrder, 0, { ...targetTask, columnId: action.columnId });
+
+      // Update all tasks in the column with new orders
+      const updatedColumnTasks = tasksWithoutTarget.map((task, index) => ({
+        ...task,
+        order: index,
+      }));
+
+      // Update the state by replacing all tasks in the column
+      const tasksOutsideColumn = state.tasks.filter((task) => task.columnId !== action.columnId);
+      const updatedTasks = [...tasksOutsideColumn, ...updatedColumnTasks];
+
+      return { ...state, tasks: updatedTasks };
+    }
     default:
       return state;
   }
@@ -171,6 +219,7 @@ type KanbanContextValue = {
   deleteComment: (taskId: string, commentId: string) => void;
   editComment: (taskId: string, commentId: string, newText: string) => void;
   moveTask: (taskId: string, newColumnId: string) => void;
+  reorderTask: (taskId: string, newOrder: number, columnId: string) => void;
 };
 
 const KanbanContext = createContext<KanbanContextValue | undefined>(undefined);
@@ -226,6 +275,10 @@ export function KanbanProvider({ children }: { children: ReactNode }) {
     dispatch({ type: "MOVE_TASK", taskId, newColumnId });
   }
 
+  function reorderTask(taskId: string, newOrder: number, columnId: string) {
+    dispatch({ type: "REORDER_TASK", taskId, newOrder, columnId });
+  }
+
   return (
     <KanbanContext.Provider
       value={{
@@ -238,6 +291,7 @@ export function KanbanProvider({ children }: { children: ReactNode }) {
         renameTask,
         updateTaskDescription,
         moveTask,
+        reorderTask,
         addComment,
         deleteComment,
         editComment,

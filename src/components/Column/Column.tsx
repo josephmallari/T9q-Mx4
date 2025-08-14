@@ -18,7 +18,7 @@ export default function Column({ column }: ColumnProps) {
   const dropRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const columnTasks = state.tasks.filter((task) => task.columnId === column.id);
+  const columnTasks = state.tasks.filter((task) => task.columnId === column.id).sort((a, b) => a.order - b.order);
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -123,8 +123,8 @@ export default function Column({ column }: ColumnProps) {
       </div>
 
       <div className="column-content">
-        {columnTasks.map((task) => {
-          return <Task key={task.id} task={task} />;
+        {columnTasks.map((task, index) => {
+          return <Task key={task.id} task={task} index={index} />;
         })}
       </div>
 

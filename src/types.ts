@@ -15,6 +15,7 @@ export interface Task {
   comments: Comment[];
   columnId: string;
   description: string;
+  order: number;
 }
 
 export interface Kanban {

@@ -64,9 +64,9 @@
 }
 
 .btn-danger {
-  background-color: #ff0000;
+  background-color: rgba(255, 0, 0, 0.5);
   color: black;
-  border-color: #ff0000;
+  border-color: red;
 }
 
 .btn-danger:hover {

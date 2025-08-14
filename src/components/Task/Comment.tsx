@@ -60,7 +60,7 @@ export default function Comment({ comment, taskId, onDelete, onEdit }: CommentPr
                 Edit
               </button>
               <button className="btn btn-sm btn-danger" onClick={handleDelete}>
-                Delete
+                Delete Comment
               </button>
             </div>
           </>
