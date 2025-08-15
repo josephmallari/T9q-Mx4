@@ -32,6 +32,20 @@ I implemented React's Context API for state management. While I have experience 
 I opted for vanilla CSS to maximize development speed and maintain full control over the styling. While I'm proficient with styled-components, Material-UI, shadcn/ui, and Tailwind CSS, vanilla CSS allows for rapid prototyping and precise customization without additional dependencies.
 
 - Used Lucide React icons for icons
+
+### How to test
+- add new column
+- rename existing columns
+- delete columns
+- add new tasks
+- edit existing tasks
+- delete tasks
+- add comments
+- edit comments
+- delete comments
+- move tasks between columns
+- move tasks on same columns
+- check data persist on refresh
   
 ### Improvements
 - Nested comments Reddit style. If I had more time, I would implement the bonus of nested comments.
