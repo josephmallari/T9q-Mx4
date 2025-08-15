@@ -1,6 +1,5 @@
 # Kanban Board
-
-A modern, responsive Kanban board application built with React and TypeScript, inspired by Trello's clean and intuitive interface.
+Mini Kanban board built with React and TS.
 
 ## Features
 
@@ -9,7 +8,7 @@ A modern, responsive Kanban board application built with React and TypeScript, i
 - **Column Operations**: Add, rename, and remove columns dynamically
 - **Persistent Storage**: Data persists across browser sessions using localStorage
 - **Responsive Design**: Works seamlessly on desktop and mobile devices
-- **Real-time Updates**: Instant UI updates with React Context API
+- **Real-time Updates**: Instant UI updates with React Context API and State Management
 
 ## Installation
 
@@ -17,8 +16,6 @@ A modern, responsive Kanban board application built with React and TypeScript, i
 npm install
 npm run dev
 ```
-
-Bootstrapped with Vite
 
 ## Technical Approach
 
@@ -28,15 +25,19 @@ I chose Trello.com as inspiration for this Kanban board due to its minimalist de
 
 ### State Management
 
-I implemented React's Context API for state management, leveraging its built-in capabilities for prop drilling avoidance and component communication. While I have experience with Redux, Zustand, and other state management solutions, Context API provides the perfect balance of simplicity and power for this application's needs.
+I implemented React's Context API for state management. While I have experience with Redux, Zustand, and other state management solutions, Context API provides the perfect balance of simplicity and power.
 
 ### Styling Strategy
 
 I opted for vanilla CSS to maximize development speed and maintain full control over the styling. While I'm proficient with styled-components, Material-UI, shadcn/ui, and Tailwind CSS, vanilla CSS allows for rapid prototyping and precise customization without additional dependencies.
 
-### Architecture Highlights
+- Used Lucide React icons for icons
+  
+### Improvements
+- Nested comments Reddit style. If I had more time, I would implement the bonus of nested comments.
+    - Logic: ParentId field references another comment, can use recursive strategy starting with parentId = null
+- Keyboard Navigation
+- Unit Testing
+- In a production setting, connect to a DB, load and update tasks there.
+- Remove confirm windows and use a proper modal
 
-- **Component Structure**: Modular components with clear separation of concerns
-- **Type Safety**: Full TypeScript implementation for better development experience
-- **Custom Hooks**: Reusable logic extraction for column, task, and comment operations
-- **Local Storage**: Persistent data management without external dependencies
