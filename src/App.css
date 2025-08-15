@@ -4,14 +4,21 @@
   width: 100%;
 }
 
+h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
 .kanban-board {
+  align-items: center;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
 .add-column-button {
-  height: 227px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -29,7 +36,17 @@
 }
 
 @media (min-width: 768px) {
+  .add-column-button {
+    height: 220px;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+  }
+
   .kanban-board {
+    align-items: flex-start;
     flex-direction: row;
     padding-bottom: 20px; /* Add space for scrollbar */
   }
