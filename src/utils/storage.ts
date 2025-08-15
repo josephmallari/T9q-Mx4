@@ -36,19 +36,26 @@ export const getInitialState = (): Kanban => {
     columns: [
       { id: "todo", title: "To do" },
       { id: "in_progress", title: "In progress" },
-      { id: "finished", title: "Finished" },
+      { id: "done", title: "Done" },
     ],
     tasks: [
-      { id: "task1", title: "clean", description: "clean the house", comments: [], columnId: "todo", order: 0 },
+      { id: "task1", title: "task one", description: "task one description", comments: [], columnId: "todo", order: 0 },
       {
-        id: "Task2",
-        title: "grocery shop",
-        description: "buy groceries",
+        id: "task2",
+        title: "task two",
+        description: "task description",
         comments: [],
         columnId: "in_progress",
         order: 0,
       },
-      { id: "task3", title: "repair car", description: "repair the car", comments: [], columnId: "finished", order: 0 },
+      {
+        id: "task3",
+        title: "task three",
+        description: "task three description",
+        comments: [],
+        columnId: "finished",
+        order: 0,
+      },
       {
         id: "task4",
         title: "find clothes",
