@@ -100,20 +100,37 @@ export function reducer(state: Kanban, action: Action): Kanban {
       };
     }
     case "REORDER_TASK": {
+      // find task being moved by its ID
       const targetTask = state.tasks.find((task) => task.id === action.taskId);
-      if (!targetTask) return state;
+      if (!targetTask) return state; // Exit if task not found
+
+      // remove the target task from the original position
       const tasksWithoutTarget = state.tasks.filter((task) => task.id !== action.taskId);
+
+      // get all tasks in the target column (excluding the moved task) and sort by current order
       const columnTasks = tasksWithoutTarget
         .filter((task) => task.columnId === action.columnId)
         .sort((a, b) => a.order - b.order);
+
+      // ensure the new order doesn't exceed the column's task count
       const newOrder = Math.min(action.newOrder, columnTasks.length);
+
+      // insert the target task at the new position in the column
       columnTasks.splice(newOrder, 0, { ...targetTask, columnId: action.columnId });
+
+      // recalculate order numbers for all tasks in the column (0, 1, 2, etc.)
       const updatedColumnTasks = columnTasks.map((task, index) => ({
         ...task,
         order: index,
       }));
+
+      // get all tasks that are NOT in the target column (preserve their original state)
       const tasksOutsideColumn = tasksWithoutTarget.filter((task) => task.columnId !== action.columnId);
+
+      // combine tasks outside the column with the updated column tasks
       const updatedTasks = [...tasksOutsideColumn, ...updatedColumnTasks];
+
+      // return new state with updated task array
       return { ...state, tasks: updatedTasks };
     }
     default:

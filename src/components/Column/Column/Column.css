@@ -1,13 +1,20 @@
 .column {
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius-md);
-  width: 250px;
+  width: 100%;
   background-color: var(--background-white);
   display: flex;
   flex-direction: column;
   height: fit-content;
   max-height: 80vh;
+  max-width: 450px;
   transition: all var(--transition-fast);
+}
+
+@media (min-width: 768px) {
+  .column {
+    width: 250px;
+  }
 }
 
 .column.drag-over {
