@@ -40,7 +40,7 @@ export default function TaskComments({
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
           placeholder="Add a comment..."
-          className="comment-textarea"
+          className="form-control form-control-textarea"
           autoFocus
         />
         <div className="comment-form-actions">

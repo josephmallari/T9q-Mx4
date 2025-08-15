@@ -29,7 +29,6 @@ export default function TaskCard({ task, onClick }: TaskCardProps) {
   };
 
   const handleClick = (e: React.MouseEvent) => {
-    // prevent click when dragging
     if ((e.currentTarget as HTMLElement).style.opacity !== "0.5") {
       onClick();
     }

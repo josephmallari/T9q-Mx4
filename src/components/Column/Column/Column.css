@@ -1,7 +1,7 @@
 .column {
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius-md);
-  min-width: 250px;
+  width: 250px;
   background-color: var(--background-white);
   display: flex;
   flex-direction: column;

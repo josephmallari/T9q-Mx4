@@ -21,9 +21,7 @@ export default function Comment({ comment, onDelete, onEdit }: CommentProps) {
   };
 
   const handleDelete = () => {
-    if (confirm("Are you sure you want to delete this comment? (Ideally we would have a confirmation modal)")) {
-      onDelete(comment.id);
-    }
+    onDelete(comment.id);
   };
 
   return (
@@ -34,7 +32,7 @@ export default function Comment({ comment, onDelete, onEdit }: CommentProps) {
             <textarea
               value={editText}
               onChange={(e) => setEditText(e.target.value)}
-              className="comment-textarea"
+              className="form-control form-control-textarea"
               autoFocus
             />
             <div className="comment-edit-actions">

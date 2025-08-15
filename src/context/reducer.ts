@@ -1,6 +1,7 @@
 import type { Kanban, Task, Comment } from "../types";
 import type { Action } from "./actions";
 
+// optional, create smaller reducers for each action type
 export function reducer(state: Kanban, action: Action): Kanban {
   switch (action.type) {
     case "ADD_TASK": {

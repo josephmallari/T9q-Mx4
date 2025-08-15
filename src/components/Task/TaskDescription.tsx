@@ -14,6 +14,8 @@ export default function TaskDescription({ description, onUpdateDescription }: Ta
   const handleStartEdit = () => {
     setIsEditing(true);
     setEditDescription(description);
+
+    // can use ref here or useEffect to focus and select
     setTimeout(() => {
       descriptionInputRef.current?.focus();
       descriptionInputRef.current?.select();
@@ -48,7 +50,7 @@ export default function TaskDescription({ description, onUpdateDescription }: Ta
             value={editDescription}
             onChange={(e) => setEditDescription(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="task-description-input"
+            className="form-control form-control-textarea"
             placeholder="Add a description..."
             rows={4}
           />

@@ -2,6 +2,7 @@ import type { Kanban } from "../types";
 
 const STORAGE_KEY = "kanban-data";
 
+// IMPROVEMENT: can debounce this to prevent too many re-renders
 export function saveToStorage(data: Kanban): void {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
@@ -20,7 +21,6 @@ export function loadFromStorage(): Kanban | null {
     return parsed;
   } catch (error) {
     console.error("Failed to load from localStorage:", error);
-    // Clear corrupted data
     localStorage.removeItem(STORAGE_KEY);
     return null;
   }

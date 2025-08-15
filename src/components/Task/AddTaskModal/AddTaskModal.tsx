@@ -41,7 +41,7 @@ export default function AddTaskModal({ isOpen, onClose, onAdd }: AddTaskModalPro
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Enter task title..."
-            className="form-input"
+            className="form-control"
             required
           />
         </div>
@@ -53,7 +53,7 @@ export default function AddTaskModal({ isOpen, onClose, onAdd }: AddTaskModalPro
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Enter task description..."
-            className="form-textarea"
+            className="form-control form-control-textarea"
             rows={3}
           />
         </div>

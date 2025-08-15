@@ -1,11 +1,11 @@
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useKanban } from "../../../context/KanbanContext";
 import { useColumnOperations } from "../../../hooks/useColumnOperations";
 import { useTaskOperations } from "../../../hooks/useTaskOperations";
-import Task from "../../Task/Task";
 import AddTaskModal from "../../Task/AddTaskModal/AddTaskModal";
 import type { Column as ColumnType } from "../../../types";
 import { Plus } from "lucide-react";
+import Task from "../../Task/Task";
 import "./Column.css";
 
 interface ColumnProps {
@@ -23,8 +23,12 @@ export default function Column({ column }: ColumnProps) {
   const dropRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const columnTasks = state.tasks.filter((task) => task.columnId === column.id).sort((a, b) => a.order - b.order);
+  const columnTasks = useMemo(
+    () => state.tasks.filter((task) => task.columnId === column.id).sort((a, b) => a.order - b.order),
+    [state.tasks, column.id]
+  );
 
+  // drag and drop logic
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = "move";
@@ -32,7 +36,7 @@ export default function Column({ column }: ColumnProps) {
   };
 
   const handleDragLeave = (e: React.DragEvent) => {
-    // Only set drag over to false if we're leaving the column entirely
+    // set drag over to false if we're leaving the column entirely
     if (!dropRef.current?.contains(e.relatedTarget as Node)) {
       setIsDragOver(false);
     }
@@ -55,7 +59,7 @@ export default function Column({ column }: ColumnProps) {
   const handleStartEdit = () => {
     setIsEditing(true);
     setEditTitle(column.title);
-    // Focus the input after a brief delay to ensure it's rendered
+    // handles input focus and selection, can also use Ref or useEffect instead
     setTimeout(() => {
       inputRef.current?.focus();
       inputRef.current?.select();
@@ -105,18 +109,18 @@ export default function Column({ column }: ColumnProps) {
               onChange={(e) => setEditTitle(e.target.value)}
               onKeyDown={handleKeyDown}
               onBlur={handleSaveEdit}
-              className="column-title-input"
+              className="form-control"
               maxLength={50}
             />
           </div>
         ) : (
-          <h3 className="column-title" onClick={handleStartEdit}>
+          <h2 className="column-title" onClick={handleStartEdit}>
             {column.title}
-          </h3>
+          </h2>
         )}
         <div className="column-actions">
           <button className="column-action-button" onClick={handleDeleteColumn}>
-            delete
+            Delete
           </button>
         </div>
       </div>

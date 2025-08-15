@@ -12,7 +12,7 @@ export type Action =
   | { type: "MOVE_TASK"; taskId: string; newColumnId: string }
   | { type: "REORDER_TASK"; taskId: string; newOrder: number; columnId: string };
 
-// Action creators for better type safety
+// action creators for better type safety
 export const actions = {
   addTask: (columnId: string, title: string, description: string): Action => ({
     type: "ADD_TASK",

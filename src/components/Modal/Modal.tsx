@@ -48,7 +48,7 @@ export default function Modal({
               onChange={(e) => onTitleChange?.(e.target.value)}
               onKeyDown={onTitleKeyDown}
               onBlur={onTitleBlur}
-              className="modal-title modal-title-input"
+              className="modal-title form-control"
               maxLength={100}
               autoFocus
             />

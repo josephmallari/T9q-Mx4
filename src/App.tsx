@@ -3,19 +3,16 @@ import Column from "./components/Column/Column/Column";
 import AddColumn from "./components/Column/AddColumn/AddColumn";
 import { useKanban } from "./context/KanbanContext";
 import { useColumnOperations } from "./hooks/useColumnOperations";
-import { useState, useCallback } from "react";
+import { useState } from "react";
 
 function App() {
   const { state } = useKanban();
   const { addColumn } = useColumnOperations();
   const [isAddColumnVisible, setIsAddColumnVisible] = useState(false);
 
-  const handleAddColumn = useCallback(
-    (title: string) => {
-      addColumn(title);
-    },
-    [addColumn]
-  );
+  const handleAddColumn = (title: string) => {
+    addColumn(title);
+  };
 
   return (
     <>

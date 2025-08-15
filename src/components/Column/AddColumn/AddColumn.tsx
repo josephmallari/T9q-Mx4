@@ -38,7 +38,7 @@ export default function AddColumn({ isVisible, onClose, onAdd }: AddColumnProps)
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Enter Column name..."
-          className="add-column-input"
+          className="form-control"
           autoFocus
           required
         />
