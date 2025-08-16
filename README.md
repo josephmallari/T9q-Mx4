@@ -17,6 +17,8 @@ npm install
 npm run dev
 ```
 
+go to http://localhost:5173/
+
 ## Technical Approach
 
 ### Design Philosophy
@@ -54,4 +56,5 @@ I opted for vanilla CSS to maximize development speed and maintain full control 
 - Unit Testing
 - In a production setting, connect to a DB, load and update tasks there.
 - Remove confirm windows and use a proper modal
+- Perform optimizations (on context for example, if there are unnecessary/extra renders upon state updates)
 
